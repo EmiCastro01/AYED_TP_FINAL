@@ -63,15 +63,15 @@ Queue<T>::Queue() {
 template <class T>
 void Queue<T>::push(T data) {
   Node<T>* new_node = new Node<T>(data);
-    if(this->head == nullptr) {
-      this->head = new_node;
-      this->last = this->head;
-    } else {
-      this->last->set_next(new_node);
-      this->last = new_node;
-    }
-    this->queue_size++;
-} 
+  if (this->head == nullptr) {
+    this->head = new_node;
+    this->last = new_node;
+  } else {
+    new_node->set_next(this->head);
+    this->head = new_node;
+  }
+  this->queue_size++;
+}
 
 template <class T>
 T Queue<T>::pop() {
@@ -79,7 +79,7 @@ T Queue<T>::pop() {
     cout << "Queue is empty" << endl;
     return 0;
   } else {
-    Node<T>* node_temp = this->head;  // just head case
+    Node<T>* node_temp = this->head;  
     if(this->head == this->last) {
       T popped_data = this->head->get_data();
       delete this->head;

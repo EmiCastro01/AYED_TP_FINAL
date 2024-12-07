@@ -15,6 +15,8 @@ int main ()
   q.pop();
   q.print_queue();
   cout << q.size() << endl;
+  q.pop();
+  
 
   return EXIT_SUCCESS;
 }
