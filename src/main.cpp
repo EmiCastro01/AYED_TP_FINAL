@@ -7,13 +7,12 @@ using namespace std;
 int main ()
 {
   Tree<int> tree;
-  tree.insert(10);
-  tree.insert(5);
-  tree.insert(15);
-  tree.insert(3);
-  tree.insert(7);
+  tree.add(5);
+  tree.add(3);
+  tree.add(7);
+  tree.add(2);
+  tree.add(4);
   tree.print_tree();
-  
 
   return EXIT_SUCCESS;
 }
