@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 
+//-----------------NODE-----------------
 template <class T> class Node {
   public:
     Node(T data);
@@ -33,7 +34,7 @@ void Node<T>::set_next(Node<T>* next) {
   this->next = next;
 }
 
-
+//-----------------QUEUE-----------------
 template <class T> class Queue {
 
   public:

@@ -1,21 +1,18 @@
 #include <iostream>
 #include "../include/queue.hpp"
-
+#include "../include/tree.hpp"
 using namespace std;
 
 
 int main ()
 {
-  Queue<string> q;
-  q.push("hola");
-  q.push("soy");
-  q.push("emi");
-  cout << q.size() << endl;
-  q.print_queue();
-  q.pop();
-  q.print_queue();
-  cout << q.size() << endl;
-  q.pop();
+  Tree<int> tree;
+  tree.insert(10);
+  tree.insert(5);
+  tree.insert(15);
+  tree.insert(3);
+  tree.insert(7);
+  tree.print_tree();
   
 
   return EXIT_SUCCESS;
