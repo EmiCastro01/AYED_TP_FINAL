@@ -42,7 +42,7 @@ template <class T> class Queue {
     T pop();
     T get_last();
     T get_head();
-   // int size();
+    int size();
     bool is_empty();
     void print_queue();
   
@@ -115,4 +115,9 @@ void Queue<T>::print_queue()
 template <class T>
 bool Queue<T>::is_empty() {
   return this->queue_size == 0;
+}
+
+template <class T>
+int Queue<T>::size() {
+  return this->queue_size;
 }
