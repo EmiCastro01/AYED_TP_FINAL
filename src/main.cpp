@@ -1,4 +1,5 @@
 #include <iostream>
+#include <bitset>
 #include "../include/queue.hpp"
 #include "../include/tree.hpp"
 using namespace std;
@@ -6,13 +7,8 @@ using namespace std;
 
 int main ()
 {
-  Tree<int> tree;
-  tree.add(5);
-  tree.add(3);
-  tree.add(7);
-  tree.add(2);
-  tree.add(4);
-  tree.print_tree();
+  bitset<8> b(2);
+  cout << b << endl;
 
   return EXIT_SUCCESS;
 }
