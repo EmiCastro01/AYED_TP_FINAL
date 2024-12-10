@@ -80,7 +80,7 @@ bool Network::generate_network() {
   cout << "Creating terminals [[TERMINALS]]..." << endl;
   int terminal_id = 0;
   for(int i = 0; i < ROUTER_MAX_NO; i++){
-    for(int j = 0; j < terminals_per_router; j++){
+    for(int j = 0; j < terminals_per_router; j++){ // maybe we could change this logic, not neccessary a client for each reciever
       Terminal terminal_c("Terminal" + to_string(terminal_id), CLIENT, terminal_id);
       terminal_id++;
       Terminal terminal_r("Terminal" + to_string(terminal_id), RECIEVER, terminal_id);
@@ -114,4 +114,11 @@ Router* Network::get_router_by_name(string name) {
     }
   }
   return nullptr;
+}
+
+void Network::send_page(Page page, Terminal *terminal, IP destination) {
+  cout << "Sending page to " << destination << "..." << endl;
+  Packet packet;
+ // TODO: Implement the send_page method
+  cout << "Page sent to " << destination << "..." << endl;
 }
