@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int terminals_per_router = 2;
+int terminals_per_router = 1;
 
 Network::Network() {
   for (int i = 0; i < ROUTER_MAX_NO; i++) {
@@ -80,28 +80,45 @@ bool Network::generate_network() {
   cout << "Creating terminals [[TERMINALS]]..." << endl;
   int terminal_id = 0;
   for(int i = 0; i < ROUTER_MAX_NO; i++){
-    for(int j = 0; j < terminals_per_router; j++){
-      Terminal terminal_c("Terminal" + to_string(terminal_id), CLIENT, terminal_id);
+    for(int j = 0; j < terminals_per_router; j++){ // maybe we could change this logic, not neccessary a client for each reciever
+      Terminal *terminal_r = new Terminal("Terminal" + to_string(terminal_id), RECIEVER, terminal_id);
       terminal_id++;
-      Terminal terminal_r("Terminal" + to_string(terminal_id), RECIEVER, terminal_id);
+      Terminal *terminal_c = new Terminal("Terminal" + to_string(terminal_id), CLIENT, terminal_id);
       terminal_id++;
-      get_router_by_id(i)->add_terminal(&terminal_r, 1);
-      get_router_by_id(i)->add_terminal(&terminal_c, 1);
-      cout << "Terminal created: " << terminal_c.get_name() << " is: " << terminal_c.get_type() << endl;
-      cout << "Terminal created: " << terminal_r.get_name() << " is: " << terminal_r.get_type() << endl;
+      get_router_by_id(i)->add_terminal(terminal_r, 1);
+      get_router_by_id(i)->add_terminal(terminal_c, 1);
+      cout << "Terminal created: " << terminal_c->get_name() << " is: " << terminal_c->get_type() << endl;
+      cout << "Terminal created: " << terminal_r->get_name() << " is: " << terminal_r->get_type() << endl;
     }
+  }
+  cout << "Printing terminals per router [[NETWORK]]" << endl;
+  for(int i = 0; i < ROUTER_MAX_NO; i++){
+    cout << "Router " << i << " has " << get_router_by_id(i)->get_terminals().get_head().terminal->get_ID() << ", " << 
+    get_router_by_id(i)->get_terminals().get_last().terminal->get_ID() << endl;
   }
   cout << "Terminals are well created <<" << endl;
   cout << "Terminals and Routers are well connected <<" << endl;
   cout << "Network is well generated [[NETWORK]]" << endl;
+  
   return true;
 }
 
 
 Router* Network::get_router_by_id(int id) {     
-  for (int i = 0; i < ROUTER_MAX_NO; i++) {
-    if (this->routers_array[i].get_ID() == id) {
-      return &this->routers_array[i];
+  if(id < ROUTER_MAX_NO){
+    return &this->routers_array[id];
+  }
+  return nullptr;
+}
+
+Terminal* Network::get_terminal_by_id(int id) {
+  terminals_t t;
+  for(int i = 0; i < ROUTER_MAX_NO; i++){
+    t = this->routers_array[i].get_terminals().search(id);
+    if(t.terminal != nullptr){
+      if(t.terminal->get_ID() == id){
+        return t.terminal;
+      }
     }
   }
   return nullptr;
@@ -114,4 +131,11 @@ Router* Network::get_router_by_name(string name) {
     }
   }
   return nullptr;
+}
+
+void Network::send_page(Page page, Terminal *terminal, IP destination) {
+  cout << "Sending page to " << destination << "..." << endl;
+  Packet packet;
+ // TODO: Implement the send_page method
+  cout << "Page sent to " << destination << "..." << endl;
 }

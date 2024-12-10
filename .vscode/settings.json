@@ -79,6 +79,7 @@
     "stdio.h": "c",
     "stdlib.h": "c",
     "wait.h": "c",
-    "iostream": "cpp"
+    "iostream": "cpp",
+    "ostream": "cpp"
   }
 }

@@ -4,6 +4,8 @@
 #include "queue.hpp"
 #include "terminal.hpp"
 
+#define MASK_ROUTER_ADDRESS 0xFF00
+
 using namespace std;
 
 typedef enum {
@@ -16,12 +18,11 @@ typedef enum {
 typedef struct {
   int ID;
   int cost;
+  IP ip;
 } neighbor_t;
 
 typedef struct {
-  int ID;
-  int IP;
-  int cost;
+  Terminal* terminal;
   Queue<Data> data;
 } terminals_t;
 
@@ -29,6 +30,7 @@ class Router {
   private:
     string name;
     int ID;
+    IP ip;
     RouterGate gate;
     Queue<neighbor_t> neighbors;
     Queue<terminals_t> terminals;
@@ -38,12 +40,15 @@ class Router {
     Router();
     string get_name();
     int get_ID();
-    void process_data(Data data);   // process data, maybe we change the arguments to specify the type of processing
-    void listen(Data data);     //this has to enable the router to get data from the terminal
+    IP get_ip();
+    void route();   // process data, maybe we change the arguments to specify the type of processing
+    void listen(const Packet& packet);  
+    void listen(const Page& page);
     int flush();      // this has to send data when data is ready to be sent
     void add_neighbor(Router *router, int cost);
     void add_terminal(Terminal *terminal, int cost);
     Queue<neighbor_t> get_neighbors();
     Queue<terminals_t> get_terminals();
+    
 
 };

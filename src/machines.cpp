@@ -14,6 +14,7 @@ Router::Router(string name, int ID) {
   this->name = name;
   this->ID = ID;
   this->gate = NO_ASSIGNED;
+  this->ip =   MASK_ROUTER_ADDRESS & (ID <<= BYTE); // mask the ID to get the last byte
 }
 
 string Router::get_name() {
@@ -24,19 +25,29 @@ int Router::get_ID() {
   return this->ID;
 }
 
-void Router::process_data(Data data) {
-  cout << "Processing data" << endl;
+IP Router::get_ip() {
+  return this->ip;
+}
+
+void Router::route() {
+  cout << "Processing .. [[" << this->get_name() << "]]"<< endl;
   this->gate = CLOSE;
 }
 
-void Router::listen(Data data) {
-  cout << "Listening to data" << endl;
+void Router::listen(const Page& page) {
+  cout << "Dividing page on packets.. [[" << this->get_name() << "]]"<< endl;
+  
+  this->gate = OPEN;
+}
+
+void Router::listen(const Packet& packet) {
+  cout << "Recieving packets .. [[" << this->get_name() << "]]"<< endl;
   this->gate = OPEN;
 }
 
 int Router::flush() {
   this->gate = FLUSHING;
-  cout << "Flushing data" << endl;
+  cout << "Flushing ..  " << " [[" << this->get_name() << "]]"<< endl;
   this->gate = CLOSE;
   return 0;
 }
@@ -45,13 +56,14 @@ void Router::add_neighbor(Router *router, int cost) {
   neighbor_t neighbor;
   neighbor.ID = router->get_ID();
   neighbor.cost = cost;
+  neighbor.ip = router->get_ip();
   this->neighbors.push(neighbor);
 }
 
-void Router::add_terminal(Terminal *terminal, int cost) {
+void Router::add_terminal(Terminal *terminalPointer, int cost) {
   terminals_t terminal_;
-  terminal_.ID = terminal->get_ID();
-  terminal_.cost = cost;
+  terminal_.terminal = terminalPointer;
+  terminal_.terminal->connect_to_router(this);
   this->terminals.push(terminal_);
 }
 
@@ -68,16 +80,15 @@ Terminal::Terminal(string name, terminal_t type, int ID) {
   this->name = name;
   this->type = type;
   this->ID = ID;
+  this->ip = MASK_TERMINAL_ADDRESS & ID; // mask the ID to get the last byte
 }
 
-void Terminal::send_data(Data data) {
-  this->current_data = data;
-  cout << "Sending data" << endl;
-  // this->router->listen(data);  The terminal calls th router to listen to the data
+
+void Terminal::send_page(Page page) {
+  
 }
 
-void Terminal::receive_data(Data data) {
-  this->current_data = data;
+void Terminal::receive_page(Page page) {
   cout << "Receiving data" << endl;
   // this->router->process_data(data);    The terminal calls the router to process the data
 }
@@ -108,4 +119,8 @@ string Terminal::get_type() {
 }
 Data Terminal::get_current_data() {
   return this->current_data;
+}
+
+IP Terminal::get_ip() {
+  return this->ip;
 }
