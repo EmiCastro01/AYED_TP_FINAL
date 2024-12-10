@@ -20,7 +20,7 @@ typedef struct {
 
 typedef struct {
   int ID;
-  int IP;
+  IP ip;
   int cost;
   Queue<Data> data;
 } terminals_t;
@@ -45,5 +45,6 @@ class Router {
     void add_terminal(Terminal *terminal, int cost);
     Queue<neighbor_t> get_neighbors();
     Queue<terminals_t> get_terminals();
+    
 
 };

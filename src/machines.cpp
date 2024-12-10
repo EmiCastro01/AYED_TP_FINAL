@@ -52,6 +52,7 @@ void Router::add_terminal(Terminal *terminal, int cost) {
   terminals_t terminal_;
   terminal_.ID = terminal->get_ID();
   terminal_.cost = cost;
+  terminal_.ip = terminal->get_ip();
   this->terminals.push(terminal_);
 }
 
@@ -68,6 +69,7 @@ Terminal::Terminal(string name, terminal_t type, int ID) {
   this->name = name;
   this->type = type;
   this->ID = ID;
+  this->ip = (ID << 8);
 }
 
 void Terminal::send_data(Data data) {
@@ -108,4 +110,8 @@ string Terminal::get_type() {
 }
 Data Terminal::get_current_data() {
   return this->current_data;
+}
+
+IP Terminal::get_ip() {
+  return this->ip;
 }

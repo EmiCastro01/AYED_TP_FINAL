@@ -29,8 +29,8 @@ int main ()
   );
 
   network.generate_network();
-
   cout << network.get_router_by_id(4)->get_terminals().get_head().ID << endl;
+  cout << network.get_router_by_id(4)->get_terminals().get_head().ip << endl;
   return EXIT_SUCCESS;
 }
 
