@@ -26,13 +26,21 @@ class Router {
 
   public:
     Router(string name, int ID);
+    Router();
     string get_name();
     int get_ID();
     void process_data(Data data);   // process data, maybe we change the arguments to specify the type of processing
     void listen(Data data);     //this has to enable the router to get data from the terminal
     int flush();      // this has to send data when data is ready to be sent
+    void add_neighbor(Router *router, int cost);
+    neighbor_t get_neighbor();
 };
 
+Router::Router() {
+  this->name = "Router-";
+  this->ID = 0;
+  this->gate = NO_ASSIGNED;
+}
 Router::Router(string name, int ID) {
   this->name = name;
   this->ID = ID;
@@ -64,3 +72,13 @@ int Router::flush() {
   return 0;
 }
 
+void Router::add_neighbor(Router *router, int cost) {
+  neighbor_t neighbor;
+  neighbor.ID = router->get_ID();
+  neighbor.cost = cost;
+  this->neighbors.push(neighbor);
+}
+
+neighbor_t Router::get_neighbor() {
+  return this->neighbors.get_last();
+}

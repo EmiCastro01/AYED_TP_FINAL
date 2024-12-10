@@ -123,3 +123,8 @@ template <class T>
 int Queue<T>::size() {
   return this->queue_size;
 }
+
+template <class T>
+T Queue<T>::get_last() {
+  return this->last->get_data();
+}
