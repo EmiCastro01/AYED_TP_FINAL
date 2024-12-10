@@ -1,7 +1,8 @@
 #pragma once
 #include <iostream>
-#include "data.hpp"
+#include "packets.hpp"
 #include "queue.hpp"
+#include "terminal.hpp"
 
 using namespace std;
 
@@ -17,12 +18,20 @@ typedef struct {
   int cost;
 } neighbor_t;
 
+typedef struct {
+  int ID;
+  int IP;
+  int cost;
+  Queue<Data> data;
+} terminals_t;
+
 class Router {
   private:
     string name;
     int ID;
     RouterGate gate;
     Queue<neighbor_t> neighbors;
+    Queue<terminals_t> terminals;
 
   public:
     Router(string name, int ID);
@@ -33,52 +42,8 @@ class Router {
     void listen(Data data);     //this has to enable the router to get data from the terminal
     int flush();      // this has to send data when data is ready to be sent
     void add_neighbor(Router *router, int cost);
-    neighbor_t get_neighbor();
+    void add_terminal(Terminal *terminal, int cost);
+    Queue<neighbor_t> get_neighbors();
+    Queue<terminals_t> get_terminals();
+
 };
-
-Router::Router() {
-  this->name = "Router-";
-  this->ID = 0;
-  this->gate = NO_ASSIGNED;
-}
-Router::Router(string name, int ID) {
-  this->name = name;
-  this->ID = ID;
-  this->gate = NO_ASSIGNED;
-}
-
-string Router::get_name() {
-  return this->name;
-}
-
-int Router::get_ID() {
-  return this->ID;
-}
-
-void Router::process_data(Data data) {
-  cout << "Processing data" << endl;
-  this->gate = CLOSE;
-}
-
-void Router::listen(Data data) {
-  cout << "Listening to data" << endl;
-  this->gate = OPEN;
-}
-
-int Router::flush() {
-  this->gate = FLUSHING;
-  cout << "Flushing data" << endl;
-  this->gate = CLOSE;
-  return 0;
-}
-
-void Router::add_neighbor(Router *router, int cost) {
-  neighbor_t neighbor;
-  neighbor.ID = router->get_ID();
-  neighbor.cost = cost;
-  this->neighbors.push(neighbor);
-}
-
-neighbor_t Router::get_neighbor() {
-  return this->neighbors.get_last();
-}
