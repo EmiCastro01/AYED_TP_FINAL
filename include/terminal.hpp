@@ -1,6 +1,9 @@
 #pragma once
 #include <iostream>
 #include "packets.hpp"
+
+#define MASK_TERMINAL_ADDRESS 0x00FF
+
 using namespace std;
 
 class Router;

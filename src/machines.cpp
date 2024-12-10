@@ -14,6 +14,7 @@ Router::Router(string name, int ID) {
   this->name = name;
   this->ID = ID;
   this->gate = NO_ASSIGNED;
+  this->ip =   MASK_ROUTER_ADDRESS & (ID <<= BYTE); // mask the ID to get the last byte
 }
 
 string Router::get_name() {
@@ -22,6 +23,10 @@ string Router::get_name() {
 
 int Router::get_ID() {
   return this->ID;
+}
+
+IP Router::get_ip() {
+  return this->ip;
 }
 
 void Router::process_data(Data data) {
@@ -45,6 +50,7 @@ void Router::add_neighbor(Router *router, int cost) {
   neighbor_t neighbor;
   neighbor.ID = router->get_ID();
   neighbor.cost = cost;
+  neighbor.ip = router->get_ip();
   this->neighbors.push(neighbor);
 }
 
@@ -69,7 +75,7 @@ Terminal::Terminal(string name, terminal_t type, int ID) {
   this->name = name;
   this->type = type;
   this->ID = ID;
-  this->ip = (ID << 8);
+  this->ip = MASK_TERMINAL_ADDRESS & ID; // mask the ID to get the last byte
 }
 
 void Terminal::send_data(Data data) {
