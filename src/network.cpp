@@ -107,6 +107,17 @@ Router* Network::get_router_by_id(int id) {
   return nullptr;
 }
 
+Terminal* Network::get_terminal_by_id(int id) {
+  
+  for(int i = 0; i < ROUTER_MAX_NO; i++){
+    cout << "THE ID OF MATCH IS: " << this->routers_array[i].get_terminals().search(id).terminal->get_ID() << endl;
+    if(this->routers_array[i].get_terminals().search(id).terminal->get_ID() == id){
+      return this->routers_array[i].get_terminals().search(id).terminal;
+    }
+  }
+  return nullptr;
+}
+
 Router* Network::get_router_by_name(string name) {
   for (int i = 0; i < ROUTER_MAX_NO; i++) {
     if (this->routers_array[i].get_name() == name) {

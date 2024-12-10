@@ -29,9 +29,21 @@ int main ()
   );
 
   network.generate_network();
-  cout << network.get_router_by_id(4)->get_terminals().get_head().ID << endl;
-  cout << network.get_router_by_id(4)->get_terminals().get_head().ip << endl;
-  cout << network.get_router_by_id(4)->get_ip() << endl;
-  return EXIT_SUCCESS;
+  
+  Router router1("Router1", 1);
+  Terminal terminal1("Terminal1", CLIENT, 2);
+  router1.add_terminal(&terminal1, 1);
+   terminals_t t = router1.get_terminals().search(3);
+   if(t.terminal == nullptr) {
+     cout << "No se encontro el terminal" << endl;
+   } else {
+       cout << "El match es: " << t.terminal->get_ID() << endl;
+
+   }
+  return EXIT_SUCCESS; 
 }
+
+
+// Por el momento, estoy haciendo que las terminales y los routers se guarden en cada
+// maquina con la estructura y no como punteros. Estaria bueno hacerlo con punteros
 

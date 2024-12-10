@@ -25,6 +25,7 @@ typedef struct {
   int ID;
   IP ip;
   int cost;
+  Terminal* terminal;
   Queue<Data> data;
 } terminals_t;
 

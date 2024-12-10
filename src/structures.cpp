@@ -107,6 +107,21 @@ T Queue<T>::get_head() {
   return this->head->get_data();
 }
 
+template<class T>
+T Queue<T>::search(int key) {
+  Node <terminals_t>* node_temp = this->head;
+  while (node_temp != nullptr) {
+    if (node_temp->get_data().ID == key) {
+      return node_temp->get_data();
+    }
+    node_temp = node_temp->get_next();
+  }
+  cout << "Element not found [[QUEUE]]" << endl;
+  T empty;
+  empty.ID = -1;
+  empty.terminal = nullptr;
+  return empty;
+}
 
 template <class T>
 Tree_Node<T>::Tree_Node(T data) : data(data), left(nullptr), right(nullptr) {}

@@ -54,11 +54,12 @@ void Router::add_neighbor(Router *router, int cost) {
   this->neighbors.push(neighbor);
 }
 
-void Router::add_terminal(Terminal *terminal, int cost) {
+void Router::add_terminal(Terminal *terminalPointer, int cost) {
   terminals_t terminal_;
-  terminal_.ID = terminal->get_ID();
+  terminal_.ID = terminalPointer->get_ID();
   terminal_.cost = cost;
-  terminal_.ip = terminal->get_ip();
+  terminal_.ip = terminalPointer->get_ip();
+  terminal_.terminal = terminalPointer;
   this->terminals.push(terminal_);
 }
 

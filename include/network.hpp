@@ -30,6 +30,10 @@ class Network {
     bool generate_network();
     Router* get_router_by_id(int id);
     Router* get_router_by_name(string name);
+    Router* get_router_by_ip(IP ip);
+    Terminal* get_terminal_by_id(int id);
+    Terminal* get_terminal_by_name(string name);
+    Terminal* get_terminal_by_ip(IP ip);
     void send_page(Page page, Terminal *terminal, IP destination);
 
 };

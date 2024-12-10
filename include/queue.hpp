@@ -1,5 +1,7 @@
 #pragma once
 #include <iostream>
+
+
 using namespace std;
 
 //-----------------NODE-----------------
@@ -26,6 +28,7 @@ template <class T> class Queue {
     int size();
     bool is_empty();
     void print_queue();
+    T search(int key);
   
   private:
     int queue_size;
