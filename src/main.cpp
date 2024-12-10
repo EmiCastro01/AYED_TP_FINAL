@@ -1,16 +1,19 @@
 #include <iostream>
 #include <bitset>
-#include "../include/queue.hpp"
-#include "../include/tree.hpp"
-#include "../include/network.hpp"
+
+#include "network.cpp"
+#include "structures.cpp"
+#include "machines.cpp"
+#include "system_adm.cpp"
+#include "utils.cpp"
 using namespace std;
 
 
 int main ()
 {
-  
+  load_configurations();
   Network network;
-  network.set_adjacency_matrix(
+  network.set_adjacency_matrix( //example
     {
       {0, 1, 0, 0, 0, 0, 0, 0, 0, 0},
       {1, 0, 1, 0, 0, 0, 0, 0, 0, 0},
@@ -26,7 +29,8 @@ int main ()
   );
 
   network.generate_network();
-  cout << network.get_router_by_id(7)->get_neighbors().get_head().ID << endl;
+
+  cout << network.get_router_by_id(4)->get_terminals().get_head().ID << endl;
   return EXIT_SUCCESS;
 }
 
