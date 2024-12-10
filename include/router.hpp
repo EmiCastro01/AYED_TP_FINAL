@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include "data.hpp"
+#include "queue.hpp"
 
 using namespace std;
 
@@ -11,11 +12,18 @@ typedef enum {
   NO_ASSIGNED,
 } RouterGate;
 
+typedef struct {
+  int ID;
+  int cost;
+} neighbor_t;
+
 class Router {
   private:
     string name;
     int ID;
     RouterGate gate;
+    Queue<neighbor_t> neighbors;
+
   public:
     Router(string name, int ID);
     string get_name();
