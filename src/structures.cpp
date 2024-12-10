@@ -108,17 +108,16 @@ T Queue<T>::get_head() {
 }
 
 template<class T>
-T Queue<T>::search(int key) {
+T Queue<T>::search(int key) { 
   Node <terminals_t>* node_temp = this->head;
   while (node_temp != nullptr) {
-    if (node_temp->get_data().ID == key) {
+    if (node_temp->get_data().terminal->get_ID() == key) {
       return node_temp->get_data();
     }
     node_temp = node_temp->get_next();
   }
-  cout << "Element not found [[QUEUE]]" << endl;
+  cout << "Element not found: " << key <<" [[QUEUE]]" << endl;
   T empty;
-  empty.ID = -1;
   empty.terminal = nullptr;
   return empty;
 }

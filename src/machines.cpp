@@ -56,10 +56,8 @@ void Router::add_neighbor(Router *router, int cost) {
 
 void Router::add_terminal(Terminal *terminalPointer, int cost) {
   terminals_t terminal_;
-  terminal_.ID = terminalPointer->get_ID();
-  terminal_.cost = cost;
-  terminal_.ip = terminalPointer->get_ip();
   terminal_.terminal = terminalPointer;
+  terminal_.terminal->connect_to_router(this);
   this->terminals.push(terminal_);
 }
 
