@@ -104,15 +104,8 @@ bool Network::generate_network() {
   return true;
 }
 
-/**
- * @brief This feature is implementd using array because is executed once 
- * before the simulation starts, just for creating the network
- * Effectiveness is not a priority here, but simplicity and readability.
- * 
- * @param id 
- * @return Router* 
- */
-Router* Network::get_router_by_id(int id) {
+
+Router* Network::get_router_by_id(int id) {     // We need to create another structure for this here
   for (int i = 0; i < ROUTER_MAX_NO; i++) {
     if (this->routers_array[i].get_ID() == id) {
       return &this->routers_array[i];
