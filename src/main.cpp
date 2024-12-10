@@ -6,6 +6,7 @@
 #include "machines.cpp"
 #include "system_adm.cpp"
 #include "utils.cpp"
+#include "simulator.cpp"
 using namespace std;
 
 
@@ -29,11 +30,10 @@ int main ()
   );
 
   network.generate_network();
-  
-  /*
-    
-  */
   cout << network.get_terminal_by_id(0)->get_router()->get_ID() << endl;
+  Simulator simulator;
+  simulator.debug(true);
+  simulator.begin();
   return EXIT_SUCCESS; 
 }
 
