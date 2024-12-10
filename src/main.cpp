@@ -26,7 +26,7 @@ int main ()
   );
 
   network.generate_network();
-  cout << network.get_router_by_id(7)->get_neighbor().cost << endl; // revisar esto porque anda mal
+  cout << network.get_router_by_id(7)->get_neighbors().get_head().ID << endl;
   return EXIT_SUCCESS;
 }
 
