@@ -41,8 +41,9 @@ class Router {
     string get_name();
     int get_ID();
     IP get_ip();
-    void process_data(Data data);   // process data, maybe we change the arguments to specify the type of processing
-    void listen(Data data);     //this has to enable the router to get data from the terminal
+    void route();   // process data, maybe we change the arguments to specify the type of processing
+    void listen(const Packet& packet);  
+    void listen(const Page& page);
     int flush();      // this has to send data when data is ready to be sent
     void add_neighbor(Router *router, int cost);
     void add_terminal(Terminal *terminal, int cost);

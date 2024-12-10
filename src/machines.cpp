@@ -29,19 +29,25 @@ IP Router::get_ip() {
   return this->ip;
 }
 
-void Router::process_data(Data data) {
-  cout << "Processing data" << endl;
+void Router::route() {
+  cout << "Processing .. [[" << this->get_name() << "]]"<< endl;
   this->gate = CLOSE;
 }
 
-void Router::listen(Data data) {
-  cout << "Listening to data" << endl;
+void Router::listen(const Page& page) {
+  cout << "Dividing page on packets.. [[" << this->get_name() << "]]"<< endl;
+  
+  this->gate = OPEN;
+}
+
+void Router::listen(const Packet& packet) {
+  cout << "Recieving packets .. [[" << this->get_name() << "]]"<< endl;
   this->gate = OPEN;
 }
 
 int Router::flush() {
   this->gate = FLUSHING;
-  cout << "Flushing data" << endl;
+  cout << "Flushing ..  " << " [[" << this->get_name() << "]]"<< endl;
   this->gate = CLOSE;
   return 0;
 }
@@ -77,14 +83,12 @@ Terminal::Terminal(string name, terminal_t type, int ID) {
   this->ip = MASK_TERMINAL_ADDRESS & ID; // mask the ID to get the last byte
 }
 
-void Terminal::send_data(Data data) {
-  this->current_data = data;
-  cout << "Sending data" << endl;
-  // this->router->listen(data);  The terminal calls th router to listen to the data
+
+void Terminal::send_page(Page page) {
+  
 }
 
-void Terminal::receive_data(Data data) {
-  this->current_data = data;
+void Terminal::receive_page(Page page) {
   cout << "Receiving data" << endl;
   // this->router->process_data(data);    The terminal calls the router to process the data
 }

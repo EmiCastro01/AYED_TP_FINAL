@@ -20,9 +20,11 @@ typedef struct {
 } Packet;
 
 typedef struct {
-  int number_of_packets;
-  Queue<Packet> packets;
+  IP destination;
+  Data data;
 } Page;
+
+
 
 
 // TODO: Every packet has a destination IP, so 
