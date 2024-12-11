@@ -34,9 +34,15 @@ int main ()
   simulator.debug(true);
  // simulator.begin();
  Page page;
- page.data = "Hello World";
- Router r1;
- r1.listen(page);
+ page.data = "Hi";
+ page.destination = 2;
+ Router r1("R1", 1);
+ r1.add_neighbor(new Router("R2", 2), 1);
+ r1.get_entry_pages()->push(page); 
+ r1.run();
+ 
+ cout << "Message from r1: Is empty:" << r1.get_neighbors().search_router(2).out_packets.is_empty() << endl;
+
   return EXIT_SUCCESS; 
 }
 

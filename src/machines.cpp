@@ -11,6 +11,8 @@ Router::Router() {
   this->gate = NO_ASSIGNED;
 }
 Router::Router(string name, int ID) {
+  this->gate_pages = Queue<Page>();
+  this->gate_packets = Queue<Packet>();
   this->name = name;
   this->ID = ID;
   this->gate = NO_ASSIGNED;
@@ -34,22 +36,18 @@ void Router::route() {
   this->gate = CLOSE;
 }
 
-void Router::listen(Page& page) {
+void Router::listen() {
   cout << "Listening on terminals .. [[" << this->get_name() << "]]"<< endl;
-  generate_packets(page);
-  this->gate = OPEN;
+  Page *page = new Page();
+  *page = this->get_entry_pages()->pop();
+  generate_packets(*page); //send the content of the page to the generator
+
 }
 
-void Router::listen( Packet& packet) {
-  cout << "Recieving packets .. [[" << this->get_name() << "]]"<< endl;
-  this->gate = OPEN;
-}
-
-int Router::flush() {
+void Router::flush() {
   this->gate = FLUSHING;
   cout << "Flushing ..  " << " [[" << this->get_name() << "]]"<< endl;
   this->gate = CLOSE;
-  return 0;
 }
 
 void Router::add_neighbor(Router *router, int cost) {
@@ -57,6 +55,8 @@ void Router::add_neighbor(Router *router, int cost) {
   neighbor.ID = router->get_ID();
   neighbor.cost = cost;
   neighbor.ip = router->get_ip();
+  neighbor.router = router;
+  neighbor.out_packets = Queue<Packet>();
   this->neighbors.push(neighbor);
 }
 
@@ -78,15 +78,37 @@ Queue<terminals_t> Router::get_terminals() {
 void Router::generate_packets(Page& page) {
   cout << "Generating packets.. [[" << this->get_name() << "]]"<< endl;
   size_t packets_number = page.data.size() / (size_t)MAX_PACKET_SIZE;
+  Packet *last_packet = new Packet();
+  last_packet->data = page.data.substr(packets_number * MAX_PACKET_SIZE, page.data.size() - packets_number * MAX_PACKET_SIZE);
   for(size_t i = 0; i < packets_number; i++) {
     Packet *packet = new Packet();
     packet->data = page.data.substr(i * MAX_PACKET_SIZE, MAX_PACKET_SIZE);
-   // packet->destination = page.destination;
-   // packet->last_package = false;
+    packet->destination = page.destination;
+    packet->last_package = false;
     cout << "Packet " << i << " generated: " << packet->data << endl;
+    this->get_neighbors().search_router((int)page.destination.to_ullong()).out_packets.push(*packet);
   }
-
+  cout << "Last packet generated: " << last_packet->data << endl;
+  last_packet->last_package = true;
+  last_packet->destination = page.destination;
+  this->get_neighbors().search_router((int)page.destination.to_ullong()).out_packets.push(*last_packet);
+  cout << this->get_neighbors().search_router((int)page.destination.to_ullong()).out_packets.size();
+  cout << "All packets generated and sent to neigbhors.. [[" << this->get_name() << "]]"<< endl;
 }
+
+Queue<Packet>* Router::get_entry_queue() {
+  return &this->gate_packets;
+}
+
+Queue<Page>* Router::get_entry_pages() {
+  return &this->gate_pages;
+}
+
+void Router::run() {
+  cout << "Running .. [[" << this->get_name() << "]]"<< endl;
+  this->listen();
+}
+
 Terminal::Terminal(string name, terminal_t type, int ID) {
   this->name = name;
   this->type = type;

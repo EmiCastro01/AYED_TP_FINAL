@@ -19,6 +19,8 @@ typedef struct {
   int ID;
   int cost;
   IP ip;
+  Router *router;
+  Queue<Packet> out_packets;
 } neighbor_t;
 
 typedef struct {
@@ -34,6 +36,8 @@ class Router {
     RouterGate gate;
     Queue<neighbor_t> neighbors;
     Queue<terminals_t> terminals;
+    Queue<Packet> gate_packets; // entry data from other routers
+    Queue<Page> gate_pages;     // entry data from terminals
     void generate_packets(Page& page);
 
   public:
@@ -42,15 +46,14 @@ class Router {
     string get_name();
     int get_ID();
     IP get_ip();
-    void route();   // process data, maybe we change the arguments to specify the type of processing
-    void listen(Packet& packet);  
-    void listen(Page& page);
-    int flush();      // this has to send data when data is ready to be sent
+    void route();   // Execute the process of redirect packets
+    void listen();  
+    void flush();      // send the page to local terminal
     void add_neighbor(Router *router, int cost);
     void add_terminal(Terminal *terminal, int cost);
     Queue<neighbor_t> get_neighbors();
     Queue<terminals_t> get_terminals();
-
-    
-
+    Queue<Packet>* get_entry_queue();
+    Queue<Page>* get_entry_pages();
+    void run();
 };

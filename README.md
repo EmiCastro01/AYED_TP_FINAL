@@ -31,3 +31,13 @@ We have needed to decided a Trade-off solution between this, and just making an 
   but is on a PC, so we priorized that resource.
 
 
+# COMMING FEATURES
+
+Every cycle of simulation, the Routers:
+
+1. (LISTEN FUNC) Checks the entry queue (gate_packets) for new packets, and checks if new pages are sent.
+After this, checks on entry queue (gate_pages) for new pages.
+2. Process the data (generate packets, divide packets, complete pages, etc.)
+3. Routes the data onto different directions. (Here maybe implement the opt_fw logic).
+4. If a new page is set, send it to the local terminal.
+

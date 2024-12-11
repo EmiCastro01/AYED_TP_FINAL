@@ -52,7 +52,7 @@ template <class T>
 T Queue<T>::pop() {
   if(this->is_empty() == true) {
     cout << "Queue is empty" << endl;
-    return 0;
+    return T();
   } else {
     Node<T>* node_temp = this->head;  
     if(this->head == this->last) {
@@ -119,6 +119,21 @@ T Queue<T>::search(int key) {
   cout << "Element not found: " << key <<" [[QUEUE]]" << endl;
   T empty;
   empty.terminal = nullptr;
+  return empty;
+}
+
+template<class T> //overload for neighbor_t
+T Queue<T>::search_router(int key) { 
+  Node <neighbor_t>* node_temp = this->head;
+  while (node_temp != nullptr) {
+    if (node_temp->get_data().ID == key) {
+      return node_temp->get_data();
+    }
+    node_temp = node_temp->get_next();
+  }
+  cout << "Element not found: " << key <<" [[QUEUE]]" << endl;
+  T empty;
+  empty.router = nullptr;
   return empty;
 }
 

@@ -29,6 +29,7 @@ template <class T> class Queue {
     bool is_empty();
     void print_queue();
     T search(int key);
+    T search_router(int key);
   
   private:
     int queue_size;
