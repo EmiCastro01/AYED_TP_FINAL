@@ -51,7 +51,7 @@ class Router {
     void flush();      // send the page to local terminal
     void add_neighbor(Router *router, int cost);
     void add_terminal(Terminal *terminal, int cost);
-    Queue<neighbor_t> get_neighbors();
+    Queue<neighbor_t>& get_neighbors();
     Queue<terminals_t> get_terminals();
     Queue<Packet>* get_entry_queue();
     Queue<Page>* get_entry_pages();

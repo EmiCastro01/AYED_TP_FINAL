@@ -41,7 +41,6 @@ int main ()
  r1.get_entry_pages()->push(page); 
  r1.run();
  
- cout << "Message from r1: Is empty:" << r1.get_neighbors().search_router(2).out_packets.is_empty() << endl;
 
   return EXIT_SUCCESS; 
 }

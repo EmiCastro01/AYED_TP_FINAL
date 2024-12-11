@@ -17,6 +17,8 @@ Router::Router(string name, int ID) {
   this->ID = ID;
   this->gate = NO_ASSIGNED;
   this->ip =   MASK_ROUTER_ADDRESS & (ID <<= BYTE); // mask the ID to get the last byte
+  this->neighbors = Queue<neighbor_t>();
+  this->terminals = Queue<terminals_t>();
 }
 
 string Router::get_name() {
@@ -41,7 +43,7 @@ void Router::listen() {
   Page *page = new Page();
   *page = this->get_entry_pages()->pop();
   generate_packets(*page); //send the content of the page to the generator
-
+  delete page;
 }
 
 void Router::flush() {
@@ -57,7 +59,7 @@ void Router::add_neighbor(Router *router, int cost) {
   neighbor.ip = router->get_ip();
   neighbor.router = router;
   neighbor.out_packets = Queue<Packet>();
-  this->neighbors.push(neighbor);
+  neighbors.push(neighbor);
 }
 
 void Router::add_terminal(Terminal *terminalPointer, int cost) {
@@ -67,7 +69,7 @@ void Router::add_terminal(Terminal *terminalPointer, int cost) {
   this->terminals.push(terminal_);
 }
 
-Queue<neighbor_t> Router::get_neighbors() {
+Queue<neighbor_t>& Router::get_neighbors() {
   return this->neighbors;
 }
 
@@ -85,15 +87,14 @@ void Router::generate_packets(Page& page) {
     packet->data = page.data.substr(i * MAX_PACKET_SIZE, MAX_PACKET_SIZE);
     packet->destination = page.destination;
     packet->last_package = false;
-    cout << "Packet " << i << " generated: " << packet->data << endl;
+    cout << "Packet " << i << " generated: " << packet->data << ". Sending to: "<< (int)page.destination.to_ullong() << endl;
     this->get_neighbors().search_router((int)page.destination.to_ullong()).out_packets.push(*packet);
   }
   cout << "Last packet generated: " << last_packet->data << endl;
   last_packet->last_package = true;
   last_packet->destination = page.destination;
   this->get_neighbors().search_router((int)page.destination.to_ullong()).out_packets.push(*last_packet);
-  cout << this->get_neighbors().search_router((int)page.destination.to_ullong()).out_packets.size();
-  cout << "All packets generated and sent to neigbhors.. [[" << this->get_name() << "]]"<< endl;
+  cout << "All packets generated and sent to neighbors.. [[" << this->get_name() << "]]"<< endl;
 }
 
 Queue<Packet>* Router::get_entry_queue() {

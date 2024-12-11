@@ -12,7 +12,7 @@ Node<T>::Node(T data) {
 }
 
 template <class T>
-T Node<T>::get_data() {
+T& Node<T>::get_data() {
   return this->data;
 }
 
@@ -123,8 +123,8 @@ T Queue<T>::search(int key) {
 }
 
 template<class T> //overload for neighbor_t
-T Queue<T>::search_router(int key) { 
-  Node <neighbor_t>* node_temp = this->head;
+T& Queue<T>::search_router(int key) { 
+  Node<neighbor_t>* node_temp = this->head;
   while (node_temp != nullptr) {
     if (node_temp->get_data().ID == key) {
       return node_temp->get_data();
@@ -132,7 +132,7 @@ T Queue<T>::search_router(int key) {
     node_temp = node_temp->get_next();
   }
   cout << "Element not found: " << key <<" [[QUEUE]]" << endl;
-  T empty;
+  static T empty;
   empty.router = nullptr;
   return empty;
 }
