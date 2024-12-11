@@ -38,12 +38,31 @@ void Router::route() {
   this->gate = CLOSE;
 }
 
+void Router::regenerate_pages() {
+  cout << "Regenerating pages .. [[" << this->get_name() << "]]"<< endl;
+  
+}
 void Router::listen() {
   cout << "Listening on terminals .. [[" << this->get_name() << "]]"<< endl;
-  Page *page = new Page();
+  if(this->get_entry_pages()->is_empty() == true) {
+    cout << "No pages on Page-Gate [[ " << this->get_name() << "]]" << endl;
+  } else {
+     Page *page = new Page();
   *page = this->get_entry_pages()->pop();
   generate_packets(*page); //send the content of the page to the generator
   delete page;
+  cout << "Listening on Routers .. [[" << this->get_name() << "]]"<< endl;
+  }
+ 
+  if(this->get_entry_queue()->is_empty() == true) {
+    cout << "No packets on Packets-Gate [[ " << this->get_name() << "]]" << endl;
+  } else {
+    Packet *packet = new Packet();
+    *packet = this->get_entry_queue()->pop();
+    cout << "Packet received: " << packet->data << ". Sending to: "<< (int)packet->destination.to_ullong() << endl;
+    this->get_neighbors().search_router((int)packet->destination.to_ullong()).out_packets.push(*packet);  // Sendin just 1 packet (maybe modify)
+    delete packet;
+  }
 }
 
 void Router::flush() {
@@ -70,10 +89,16 @@ void Router::add_terminal(Terminal *terminalPointer, int cost) {
 }
 
 Queue<neighbor_t>& Router::get_neighbors() {
+  if(this->neighbors.is_empty() == true) {
+    cout << "No neighbors on Router [[ " << this->get_name() << "]]" << endl;
+  }
   return this->neighbors;
 }
 
 Queue<terminals_t> Router::get_terminals() {
+  if(this->terminals.is_empty() == true) {
+    cout << "No terminals connected [[ " << this->get_name() << "]]" << endl;
+  }
   return this->terminals;
 }
 
@@ -98,16 +123,23 @@ void Router::generate_packets(Page& page) {
 }
 
 Queue<Packet>* Router::get_entry_queue() {
+  if(this->gate_packets.is_empty() == true) {
+    cout << "No packets on Packets-Gate [[ " << this->get_name() << "]]" << endl;
+  }
   return &this->gate_packets;
 }
 
 Queue<Page>* Router::get_entry_pages() {
+  if(this->gate_pages.is_empty() == true) {
+    cout << "No pages on Page-Gate [[ " << this->get_name() << "]]" << endl;
+  }
   return &this->gate_pages;
 }
 
-void Router::run() {
+void Router::run() { // CYCLE
   cout << "Running .. [[" << this->get_name() << "]]"<< endl;
-  this->listen();
+  this->listen(); // 1
+  this->regenerate_pages(); // 2
 }
 
 Terminal::Terminal(string name, terminal_t type, int ID) {

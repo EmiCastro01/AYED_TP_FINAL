@@ -49,8 +49,10 @@ class Router {
     void route();   // Execute the process of redirect packets
     void listen();  
     void flush();      // send the page to local terminal
+    void regenerate_pages();
     void add_neighbor(Router *router, int cost);
     void add_terminal(Terminal *terminal, int cost);
+    void status_dump();
     Queue<neighbor_t>& get_neighbors();
     Queue<terminals_t> get_terminals();
     Queue<Packet>* get_entry_queue();

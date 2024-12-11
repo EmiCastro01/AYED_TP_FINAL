@@ -32,15 +32,15 @@ int main ()
   network.generate_network();
   Simulator simulator;
   simulator.debug(true);
- // simulator.begin();
- Page page;
- page.data = "Hi";
- page.destination = 2;
- Router r1("R1", 1);
- r1.add_neighbor(new Router("R2", 2), 1);
- r1.get_entry_pages()->push(page); 
- r1.run();
- 
+  //simulator.begin();
+  Packet p = Packet();
+  p.data = "Hello, Router 2";
+  p.destination = 1;
+  network.get_router_by_id(0)->get_entry_queue()->push(p);
+  network.get_router_by_id(0)->run();
+  network.get_router_by_id(1)->run();
+  network.get_router_by_id(2)->run();
+
 
   return EXIT_SUCCESS; 
 }

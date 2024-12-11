@@ -31,10 +31,7 @@ void Simulator::begin() {
   if(this->debug_mode) {
     cout << "Running on Debug mode" << endl;
     while (true) {
-    
-    
     cycle();
-
     cout << "Press any key to next cycle" << endl;
     cin.get();
     }
