@@ -9,6 +9,8 @@ The project can generate de network between routers, with neighbors. Neighbors a
 router with a queue of neighbor_t structures, that have the ID and cost.
 The project can generate router->terminal connections, and generate a queue with
 the terminals corresponding of each router. Every terminal has a unique ID.
+The project can ask the network to search terminals by ID; so Simulator can operate them
+to send data and recieve them.
 
 
 # Justify Trade-off Time-Space

@@ -5,13 +5,14 @@
 
 #define BYTES_PER_IP 2
 #define BYTE 8
+
+#define MAX_PACKET_SIZE 8   // in this example, every packet can have only 8 characters
+
 using namespace std;
 
 typedef bitset<BYTES_PER_IP * BYTE> IP;
 
-typedef struct {
-  string data;
-} Data;
+typedef string Data;
 
 typedef struct {
   Data data;
@@ -23,8 +24,6 @@ typedef struct {
   IP destination;
   Data data;
 } Page;
-
-
 
 
 // TODO: Every packet has a destination IP, so 

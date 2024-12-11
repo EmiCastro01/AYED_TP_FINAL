@@ -34,6 +34,7 @@ class Router {
     RouterGate gate;
     Queue<neighbor_t> neighbors;
     Queue<terminals_t> terminals;
+    void generate_packets(Page& page);
 
   public:
     Router(string name, int ID);
@@ -42,13 +43,14 @@ class Router {
     int get_ID();
     IP get_ip();
     void route();   // process data, maybe we change the arguments to specify the type of processing
-    void listen(const Packet& packet);  
-    void listen(const Page& page);
+    void listen(Packet& packet);  
+    void listen(Page& page);
     int flush();      // this has to send data when data is ready to be sent
     void add_neighbor(Router *router, int cost);
     void add_terminal(Terminal *terminal, int cost);
     Queue<neighbor_t> get_neighbors();
     Queue<terminals_t> get_terminals();
+
     
 
 };

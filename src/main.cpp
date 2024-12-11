@@ -30,10 +30,13 @@ int main ()
   );
 
   network.generate_network();
-  cout << network.get_terminal_by_id(0)->get_router()->get_ID() << endl;
   Simulator simulator;
   simulator.debug(true);
-  simulator.begin();
+ // simulator.begin();
+ Page page;
+ page.data = "Hello World";
+ Router r1;
+ r1.listen(page);
   return EXIT_SUCCESS; 
 }
 

@@ -34,13 +34,13 @@ void Router::route() {
   this->gate = CLOSE;
 }
 
-void Router::listen(const Page& page) {
-  cout << "Dividing page on packets.. [[" << this->get_name() << "]]"<< endl;
-  
+void Router::listen(Page& page) {
+  cout << "Listening on terminals .. [[" << this->get_name() << "]]"<< endl;
+  generate_packets(page);
   this->gate = OPEN;
 }
 
-void Router::listen(const Packet& packet) {
+void Router::listen( Packet& packet) {
   cout << "Recieving packets .. [[" << this->get_name() << "]]"<< endl;
   this->gate = OPEN;
 }
@@ -75,7 +75,18 @@ Queue<terminals_t> Router::get_terminals() {
   return this->terminals;
 }
 
+void Router::generate_packets(Page& page) {
+  cout << "Generating packets.. [[" << this->get_name() << "]]"<< endl;
+  size_t packets_number = page.data.size() / (size_t)MAX_PACKET_SIZE;
+  for(size_t i = 0; i < packets_number; i++) {
+    Packet *packet = new Packet();
+    packet->data = page.data.substr(i * MAX_PACKET_SIZE, MAX_PACKET_SIZE);
+   // packet->destination = page.destination;
+   // packet->last_package = false;
+    cout << "Packet " << i << " generated: " << packet->data << endl;
+  }
 
+}
 Terminal::Terminal(string name, terminal_t type, int ID) {
   this->name = name;
   this->type = type;

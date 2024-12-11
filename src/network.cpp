@@ -139,3 +139,4 @@ void Network::send_page(Page page, Terminal *terminal, IP destination) {
  // TODO: Implement the send_page method
   cout << "Page sent to " << destination << "..." << endl;
 }
+
