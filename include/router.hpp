@@ -39,6 +39,8 @@ class Router {
     Queue<Packet> gate_packets; // entry data from other routers
     Queue<Page> gate_pages;     // entry data from terminals
     void generate_packets(Page& page);
+    void regenerate_pages();
+    void listen();  // listen gates
 
   public:
     Router(string name, int ID);
@@ -46,10 +48,8 @@ class Router {
     string get_name();
     int get_ID();
     IP get_ip();
-    void route();   // Execute the process of redirect packets
-    void listen();  
-    void flush();      // send the page to local terminal
-    void regenerate_pages();
+    void route();   // Execute the process of redirect packets 
+    void flush();      // send the page to local terminals
     void add_neighbor(Router *router, int cost);
     void add_terminal(Terminal *terminal, int cost);
     void status_dump();

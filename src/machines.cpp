@@ -39,8 +39,10 @@ void Router::route() {
 }
 
 void Router::regenerate_pages() {
-  cout << "Regenerating pages .. [[" << this->get_name() << "]]"<< endl;
-  
+  // must distinguish:
+  // 1. IP of the destionation for each packet
+  // 2. Index of packet
+  // 3. I created an ID for page, for distinguish the packets that belong to the same page
 }
 void Router::listen() {
   cout << "Listening on terminals .. [[" << this->get_name() << "]]"<< endl;
@@ -68,7 +70,6 @@ void Router::listen() {
 void Router::flush() {
   this->gate = FLUSHING;
   cout << "Flushing ..  " << " [[" << this->get_name() << "]]"<< endl;
-  this->gate = CLOSE;
 }
 
 void Router::add_neighbor(Router *router, int cost) {
@@ -110,6 +111,7 @@ void Router::generate_packets(Page& page) {
   for(size_t i = 0; i < packets_number; i++) {
     Packet *packet = new Packet();
     packet->data = page.data.substr(i * MAX_PACKET_SIZE, MAX_PACKET_SIZE);
+    packet->index = i;
     packet->destination = page.destination;
     packet->last_package = false;
     cout << "Packet " << i << " generated: " << packet->data << ". Sending to: "<< (int)page.destination.to_ullong() << endl;

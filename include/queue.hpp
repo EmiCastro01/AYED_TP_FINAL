@@ -30,6 +30,7 @@ template <class T> class Queue {
     void print_queue();
     T search(int key);
     T& search_router(int key);
+    T& search_packet(int key);
   
   private:
     int queue_size;

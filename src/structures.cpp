@@ -131,9 +131,24 @@ T& Queue<T>::search_router(int key) {
     }
     node_temp = node_temp->get_next();
   }
-  cout << "Element not found: " << key <<" [[QUEUE]]" << endl;
+  cout << "Router not found: " << key <<" [[QUEUE]]" << endl;
   static T empty;
   empty.router = nullptr;
+  return empty;
+}
+
+template<class T> 
+T& Queue<T>::search_packet(int key) { 
+  Node<Packet>* node_temp = this->head;
+  while (node_temp != nullptr) {
+    if (node_temp->get_data().destination == key) {
+      return node_temp->get_data();
+    }
+    node_temp = node_temp->get_next();
+  }
+  cout << "Packet not found: " << key <<" [[QUEUE]]" << endl;
+  static Packet empty;
+  empty.destination = -1;
   return empty;
 }
 
