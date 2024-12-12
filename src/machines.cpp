@@ -39,17 +39,12 @@ void Router::route() {
 }
 
 void Router::regenerate_pages() {
-  // must distinguish:
-  // 1. IP of the destionation for each packet
-  // 2. Index of packet
-  // 3. I created an ID for page, for distinguish the packets that belong to the same page
-  // Tengo la siguiente situación:
-  // Tengo, por cada router vecino, una cola de paquetes de salida.
-  // Estos paquetes en esta funcion, debo verificar si estan listos para componer
-  // una página. Pero como pueden estar intercalados, debo generar un algoritmo que
-  // me permita identificar si los paquetes pertenecientes a una página tienen todos
-  // los paquetes necesarios para componer la página, y si es asi, juntarlos y enviarlos
-  
+ 
+  // debo recorrer:
+  // 1. Los vecinos
+  // 2. Los paquetes con el mismo ID (misma pagina)
+  // 3. Verificar si esos paquetes estan completos (esta el ultimo paquete y el tamaño de la pagina
+  // corresponde al campo size del paquete)
 }
 void Router::listen() {
   cout << "Listening on terminals .. [[" << this->get_name() << "]]"<< endl;
@@ -75,7 +70,6 @@ void Router::listen() {
 }
 
 void Router::flush() {
-  this->gate = FLUSHING;
   cout << "Flushing ..  " << " [[" << this->get_name() << "]]"<< endl;
 }
 
