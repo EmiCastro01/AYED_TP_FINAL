@@ -49,6 +49,7 @@ void Router::regenerate_pages() {
   // una página. Pero como pueden estar intercalados, debo generar un algoritmo que
   // me permita identificar si los paquetes pertenecientes a una página tienen todos
   // los paquetes necesarios para componer la página, y si es asi, juntarlos y enviarlos
+  
 }
 void Router::listen() {
   cout << "Listening on terminals .. [[" << this->get_name() << "]]"<< endl;
