@@ -44,7 +44,40 @@ void Router::regenerate_pages() {
   // 1. Los vecinos
   // 2. Los paquetes con el mismo ID (misma pagina)
   // 3. Verificar si esos paquetes estan completos (esta el ultimo paquete y el tamaño de la pagina
+  // IMPORTANTE: eliminar todas los punteros a colas y variables temporales al finalizar el pipeline
   // corresponde al campo size del paquete)
+  // Use bubble sort to generate the page (index)
+
+  cout << "Regenerating pages .. [[" << this->get_name() << "]]"<< endl;
+  // generate a new queue with the neighbors that have packets
+  Queue<neighbor_t> *neighbors_with_packets = new Queue<neighbor_t>();
+  for(int i = 0; i < this->get_neighbors().size(); i++) {
+    if(this->get_neighbors().search_router(i).out_packets.is_empty() == false) {
+      neighbors_with_packets->push(this->get_neighbors().search_router(i));
+    } 
+  }
+  // --------------------------------------------------- end first step --------------------
+  if(neighbors_with_packets-> is_empty()){
+        cout << "No pages to regenerate: No packets on neighbors queues [[ " << this->get_name() << "]]" << endl;
+        delete neighbors_with_packets; 
+        return;
+  } else {
+    // discard the queues of neighbors that not have the last packet
+    Queue<neighbor_t> *neighbors_with_last_packet = new Queue<neighbor_t>();
+    *neighbors_with_last_packet = *neighbors_with_packets;
+    for(int i = 0; i < neighbors_with_packets->size(); i++) {
+      for(int j = 0; j < neighbors_with_packets->search_router(i).out_packets.size(); j++) {
+        if(neighbors_with_packets->search_router(i).out_packets.search_packet(j).last_package == true) {
+          neighbors_with_last_packet->push(neighbors_with_packets->search_router(i));
+          break; // no need to continue. may have more than 1 last packet
+        }
+      }
+    }
+    delete neighbors_with_packets; 
+    // --------------------------------------------------- end second step --------------------
+  }
+  // generate 
+
 }
 void Router::listen() {
   cout << "Listening on terminals .. [[" << this->get_name() << "]]"<< endl;

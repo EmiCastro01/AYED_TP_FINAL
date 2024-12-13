@@ -107,6 +107,7 @@ T Queue<T>::get_head() {
   return this->head->get_data();
 }
 
+
 template<class T>
 T Queue<T>::search(int key) { 
   Node <terminals_t>* node_temp = this->head;

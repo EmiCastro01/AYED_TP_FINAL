@@ -20,6 +20,8 @@ But network must have information about terminals. So, for returning a Terminal,
 the Terminal to return.
 We have needed to decided a Trade-off solution between this, and just making an array.
 
+We had a similar situation with the regenerate_page method. We decided to make a pipeline solution.
+
 ## Comparison
   Terminal Array Option is more effective at time resource, which is better if amount of
   terminals are near the max, but, if this amount is low, then memory is occupated anyways
@@ -29,6 +31,8 @@ We have needed to decided a Trade-off solution between this, and just making an 
 ## Why we decided second option
   Because the network is not gonna be runned on a real server with a lot of memory space,
   but is on a PC, so we priorized that resource.
+
+
 
 
 # COMMING FEATURES
