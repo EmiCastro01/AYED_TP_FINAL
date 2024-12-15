@@ -37,11 +37,12 @@ IP Router::get_ip() {
 void Router::route() {
   cout << "Routing .. [[" << this->get_name() << "]]"<< endl;
 
-  
-      if(this->get_neighbors().search_router(1).out_packets.is_empty() == false) {
-        for(int i = 0; i < this->get_neighbors().search_router(1).cost; i++) {
-          if(this->get_neighbors().search_router(1).out_packets.is_empty() == false) {
-            this->get_neighbors().search_router(1).router->get_entry_queue()->push(this->get_neighbors().search_router(1).out_packets.pop());
+
+      if(this->get_neighbors().search_router(2).out_packets.is_empty() == false) {
+        cout << "Cost: " << this->get_neighbors().search_router(2).cost << endl;
+        for(int i = 0; i < this->get_neighbors().search_router(2).cost; i++) {
+          if(this->get_neighbors().search_router(2).out_packets.is_empty() == false) {
+            this->get_neighbors().search_router(2).router->get_entry_queue()->push(this->get_neighbors().search_router(1).out_packets.pop());
           } else {
             cout << "No packets to route to [[ " << this->get_name() << "]]" << endl;
           }
@@ -59,6 +60,7 @@ void Router::regenerate_pages() {
   if(this->get_entry_queue()->is_empty() == true) {
     cout << "No packets on Gate [[ " << this->get_name() << "]]" << endl;
   } else {
+    cout << "There are: " << this->get_entry_queue()->size() << " packets on Gate [[" << this->get_name() << "]]" << endl;
     for(int i = 0; i < this->get_entry_queue()->size(); i++) {
       for(int j = 0; j < this->get_entry_queue()->search_packet_idx(i).size; j++) {
         int ID = this->get_entry_queue()->search_packet_idx(i).ID;
@@ -68,7 +70,9 @@ void Router::regenerate_pages() {
             counter_of_packets++;
           }
         }
+        cout << counter_of_packets << endl;
         if(counter_of_packets == this->get_entry_queue()->search_packet_idx(i).size) {
+          cout << "here" << endl;
           Page regenerating_page;
           regenerating_page.ID = ID;
           regenerating_page.destination = this->get_entry_queue()->search_packet_idx(i).destination;
@@ -102,17 +106,23 @@ void Router::listen() {
   *page = this->get_entry_pages()->pop();
   generate_packets(*page); //send the content of the page to the generator
   delete page;
-  cout << "Listening on Routers .. [[" << this->get_name() << "]]"<< endl;
   }
- 
+   cout << "Listening on Routers .. [[" << this->get_name() << "]]"<< endl;
+
   if(this->get_entry_queue()->is_empty() == true) {
     cout << "No packets on Packets-Gate [[ " << this->get_name() << "]]" << endl;
   } else {
     Packet *packet = new Packet();
     *packet = this->get_entry_queue()->pop();
+    Router *opt_router = get_optimal_router(this, (int)packet->destination.to_ullong());
+    if( this == opt_router){
+        cout << "Final destination reached " << endl;
+        return;
+    }
     cout << "Packet received: " << packet->data << ". Sending to: "<< (int)packet->destination.to_ullong() << endl;
-    this->get_neighbors().search_router((int)packet->destination.to_ullong()).out_packets.push(*packet);  // Sendin just 1 packet (maybe modify)
+    opt_router->get_entry_queue()->push(*packet); // Just 1 packet
     delete packet;
+    delete opt_router;
   }
 }
 
@@ -156,22 +166,23 @@ void Router::generate_packets(Page& page) {
   size_t packets_number = page.data.size() / (size_t)MAX_PACKET_SIZE;
   Packet *last_packet = new Packet();
   last_packet->data = page.data.substr(packets_number * MAX_PACKET_SIZE, page.data.size() - packets_number * MAX_PACKET_SIZE);
-  Router *opt_router = get_optimal_router(this, this->get_neighbors().search_router((int)page.destination.to_ullong()).router);
+  Router *opt_router = get_optimal_router(this, (int)page.destination.to_ullong());
   for(size_t i = 0; i < packets_number; i++) {
     Packet *packet = new Packet();
     packet->data = page.data.substr(i * MAX_PACKET_SIZE, MAX_PACKET_SIZE);
     packet->index = i;
+    packet->ID = page.ID;
     packet->size = packets_number + 1;
     packet->destination = page.destination;
     packet->last_package = false;
     cout << "Packet " << i << " generated: " << packet->data << ". Queued to: "<< opt_router->get_ID() << endl;
-    opt_router->get_entry_queue()->push(*packet);
+    this->get_neighbors().search_neighbor(opt_router).out_packets.push(*packet);
   }
   cout << "Last packet generated: " << last_packet->data << endl;
   last_packet->last_package = true;
   last_packet->destination = page.destination;
   last_packet->size = packets_number + 1;
-  opt_router->get_entry_queue()->push(*last_packet);
+  this->get_neighbors().search_neighbor(opt_router).out_packets.push(*last_packet);
   cout << "All packets generated queued to neighbors.. [[" << this->get_name() << "]]"<< endl;
 }
 

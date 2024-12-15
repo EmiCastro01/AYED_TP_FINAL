@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../include/queue.hpp"
 #include "../include/tree.hpp"
+#include "../include/router.hpp"
 
 using namespace std;
 
@@ -154,6 +155,21 @@ T& Queue<T>::search_packet_idx(int index) {
     node_temp = node_temp->get_next();
   }
   return node_temp->get_data();
+}
+
+template<class T>
+T& Queue<T>::search_neighbor(Router *router) { 
+  Node<neighbor_t>* node_temp = this->head;
+  while (node_temp != nullptr) {
+    if (node_temp->get_data().router == router) {
+      return node_temp->get_data();
+    }
+    node_temp = node_temp->get_next();
+  }
+  cout << "Router not found: " << router->get_name() <<" [[QUEUE]]" << endl;
+  static T empty;
+  empty.router = nullptr;
+  return empty;
 }
 
 template<class T>
