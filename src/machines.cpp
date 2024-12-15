@@ -51,9 +51,10 @@ void Router::regenerate_pages() {
   cout << "Regenerating pages .. [[" << this->get_name() << "]]"<< endl;
   // generate a new queue with the neighbors that have packets
   Queue<neighbor_t> *neighbors_with_packets = new Queue<neighbor_t>();
+  Queue<neighbor_t> *neighbors_with_last_packet = new Queue<neighbor_t>();
   for(int i = 0; i < this->get_neighbors().size(); i++) {
-    if(this->get_neighbors().search_router(i).out_packets.is_empty() == false) {
-      neighbors_with_packets->push(this->get_neighbors().search_router(i));
+    if(this->get_neighbors().search_router_idx(i).out_packets.is_empty() == false) {
+      neighbors_with_packets->push(this->get_neighbors().search_router_idx(i));
     } 
   }
   // --------------------------------------------------- end first step --------------------
@@ -63,12 +64,11 @@ void Router::regenerate_pages() {
         return;
   } else {
     // discard the queues of neighbors that not have the last packet
-    Queue<neighbor_t> *neighbors_with_last_packet = new Queue<neighbor_t>();
     *neighbors_with_last_packet = *neighbors_with_packets;
     for(int i = 0; i < neighbors_with_packets->size(); i++) {
-      for(int j = 0; j < neighbors_with_packets->search_router(i).out_packets.size(); j++) {
-        if(neighbors_with_packets->search_router(i).out_packets.search_packet(j).last_package == true) {
-          neighbors_with_last_packet->push(neighbors_with_packets->search_router(i));
+      for(int j = 0; j < neighbors_with_packets->search_router_idx(i).out_packets.size(); j++) {
+        if(neighbors_with_packets->search_router_idx(i).out_packets.search_packet_idx(j).last_package == true) {
+          neighbors_with_last_packet->push(neighbors_with_packets->search_router_idx(i));
           break; // no need to continue. may have more than 1 last packet
         }
       }
@@ -76,8 +76,37 @@ void Router::regenerate_pages() {
     delete neighbors_with_packets; 
     // --------------------------------------------------- end second step --------------------
   }
-  // generate 
-
+ 
+  for(int i = 0; i < neighbors_with_last_packet->size(); i++) {
+     for(int j = 0; j < neighbors_with_last_packet->search_router_idx(i).out_packets.size(); j++) {
+        int packet_counter_per_ID = 0;
+        int ID = neighbors_with_last_packet->search_router_idx(i).out_packets.search_packet_idx(j).ID;
+        Queue<Packet> *packets_per_ID = new Queue<Packet>();
+        for(int k = 0; k < neighbors_with_last_packet->search_router_idx(i).out_packets.size(); k++){
+          if(neighbors_with_last_packet->search_router_idx(i).out_packets.search_packet_idx(k).ID == ID) {
+            packet_counter_per_ID++;
+            cout << "Counter" << packet_counter_per_ID << endl;
+            cout << "Size of page" << neighbors_with_last_packet->search_router_idx(i).out_packets.search_packet_idx(k).size << endl;
+            packets_per_ID->push(neighbors_with_last_packet->search_router_idx(i).out_packets.search_packet_idx(k));
+          }
+        }
+        if(packet_counter_per_ID == neighbors_with_last_packet->search_router_idx(i).out_packets.search_packet_idx(j).size) {
+          // here we have all the packets of the page, and we have to sort them
+          cout << "Regenerating page: " << ID << " [[ " << this->get_name() << "]]" << endl;
+          Page *page = new Page();
+          page->ID = ID;
+          page->destination = neighbors_with_last_packet->search_router_idx(i).out_packets.search_packet_idx(j).destination;
+          page->data = "";
+          for(int l = 0; l < packet_counter_per_ID; l++) {
+           page->data += packets_per_ID->search_packet_idx(l).data;
+          }
+          this->get_terminals().search(ID).out_pages.push(*page);
+          cout << "Page regenerated: " << page->data << " to terminal: " << ID << " [[ " << this->get_name() << "]]" << endl;
+          delete page;
+          delete packets_per_ID;
+        } else { delete packets_per_ID;}
+    }
+  }
 }
 void Router::listen() {
   cout << "Listening on terminals .. [[" << this->get_name() << "]]"<< endl;

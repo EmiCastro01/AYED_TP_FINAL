@@ -138,11 +138,30 @@ T& Queue<T>::search_router(int key) {
   return empty;
 }
 
+template<class T>
+T& Queue<T>::search_router_idx(int index) { 
+  Node<neighbor_t>* node_temp = this->head;
+  for (int i = 0; i < index; i++) {
+    node_temp = node_temp->get_next();
+  }
+  return node_temp->get_data();
+}
+
+template<class T>
+T& Queue<T>::search_packet_idx(int index) { 
+  Node<Packet>* node_temp = this->head;
+  for (int i = 0; i < index; i++) {
+    node_temp = node_temp->get_next();
+  }
+  return node_temp->get_data();
+}
+
 template<class T> 
 T& Queue<T>::search_packet(int key) { 
   Node<Packet>* node_temp = this->head;
   while (node_temp != nullptr) {
     if (node_temp->get_data().destination == key) {
+      cout << "Packet found: " << key <<" [[QUEUE]]" << endl;
       return node_temp->get_data();
     }
     node_temp = node_temp->get_next();

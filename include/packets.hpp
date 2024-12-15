@@ -20,6 +20,7 @@ typedef struct {
   IP destination;
   int index;  // index of the packet in the page
   bool last_package; // if the packet is the last packet of the page
+  int size;
 } Packet;
 
 typedef struct {
