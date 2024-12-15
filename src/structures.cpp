@@ -156,6 +156,17 @@ T& Queue<T>::search_packet_idx(int index) {
   return node_temp->get_data();
 }
 
+template<class T>
+bool Queue<T>::exists_terminal(int key) { 
+  Node<terminals_t>* node_temp = this->head;
+  while (node_temp != nullptr) {
+    if (node_temp->get_data().terminal->get_ID() == key) {
+      return true;
+    }
+    node_temp = node_temp->get_next();
+  }
+  return false;
+}
 template<class T> 
 T& Queue<T>::search_packet(int key) { 
   Node<Packet>* node_temp = this->head;

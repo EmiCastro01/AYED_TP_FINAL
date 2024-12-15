@@ -33,6 +33,7 @@ template <class T> class Queue {
     T& search_router_idx(int index);
     T& search_packet(int key);
     T& search_packet_idx(int index);
+    bool exists_terminal(int key);
   
   private:
     int queue_size;
