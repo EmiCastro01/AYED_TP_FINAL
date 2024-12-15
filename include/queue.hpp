@@ -8,7 +8,7 @@ using namespace std;
 template <class T> class Node {
   public:
     Node(T data);
-    T get_data();
+    T& get_data();
     Node<T>* get_next();
     void set_next(Node<T>* next);
   private:
@@ -29,6 +29,11 @@ template <class T> class Queue {
     bool is_empty();
     void print_queue();
     T search(int key);
+    T& search_router(int key);
+    T& search_router_idx(int index);
+    T& search_packet(int key);
+    T& search_packet_idx(int index);
+    bool exists_terminal(int key);
   
   private:
     int queue_size;

@@ -12,7 +12,7 @@ Node<T>::Node(T data) {
 }
 
 template <class T>
-T Node<T>::get_data() {
+T& Node<T>::get_data() {
   return this->data;
 }
 
@@ -52,7 +52,7 @@ template <class T>
 T Queue<T>::pop() {
   if(this->is_empty() == true) {
     cout << "Queue is empty" << endl;
-    return 0;
+    return T();
   } else {
     Node<T>* node_temp = this->head;  
     if(this->head == this->last) {
@@ -107,6 +107,7 @@ T Queue<T>::get_head() {
   return this->head->get_data();
 }
 
+
 template<class T>
 T Queue<T>::search(int key) { 
   Node <terminals_t>* node_temp = this->head;
@@ -119,6 +120,66 @@ T Queue<T>::search(int key) {
   cout << "Element not found: " << key <<" [[QUEUE]]" << endl;
   T empty;
   empty.terminal = nullptr;
+  return empty;
+}
+
+template<class T> //overload for neighbor_t
+T& Queue<T>::search_router(int key) { 
+  Node<neighbor_t>* node_temp = this->head;
+  while (node_temp != nullptr) {
+    if (node_temp->get_data().ID == key) {
+      return node_temp->get_data();
+    }
+    node_temp = node_temp->get_next();
+  }
+  cout << "Router not found: " << key <<" [[QUEUE]]" << endl;
+  static T empty;
+  empty.router = nullptr;
+  return empty;
+}
+
+template<class T>
+T& Queue<T>::search_router_idx(int index) { 
+  Node<neighbor_t>* node_temp = this->head;
+  for (int i = 0; i < index; i++) {
+    node_temp = node_temp->get_next();
+  }
+  return node_temp->get_data();
+}
+
+template<class T>
+T& Queue<T>::search_packet_idx(int index) { 
+  Node<Packet>* node_temp = this->head;
+  for (int i = 0; i < index; i++) {
+    node_temp = node_temp->get_next();
+  }
+  return node_temp->get_data();
+}
+
+template<class T>
+bool Queue<T>::exists_terminal(int key) { 
+  Node<terminals_t>* node_temp = this->head;
+  while (node_temp != nullptr) {
+    if (node_temp->get_data().terminal->get_ID() == key) {
+      return true;
+    }
+    node_temp = node_temp->get_next();
+  }
+  return false;
+}
+template<class T> 
+T& Queue<T>::search_packet(int key) { 
+  Node<Packet>* node_temp = this->head;
+  while (node_temp != nullptr) {
+    if (node_temp->get_data().destination == key) {
+      cout << "Packet found: " << key <<" [[QUEUE]]" << endl;
+      return node_temp->get_data();
+    }
+    node_temp = node_temp->get_next();
+  }
+  cout << "Packet not found: " << key <<" [[QUEUE]]" << endl;
+  static Packet empty;
+  empty.destination = -1;
   return empty;
 }
 

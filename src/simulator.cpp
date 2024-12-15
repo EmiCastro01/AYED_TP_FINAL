@@ -14,6 +14,7 @@ class Simulator {
     Simulator();
     void begin();
     void debug(bool debug_mode);
+    void cycle();
   private:
     bool debug_mode;    
 };
@@ -30,13 +31,14 @@ void Simulator::begin() {
   if(this->debug_mode) {
     cout << "Running on Debug mode" << endl;
     while (true) {
-    
-    // here we will run a cycle
-    // and we will print the state of the network
-
+    cycle();
     cout << "Press any key to next cycle" << endl;
     cin.get();
     }
   }
   }
+
+void Simulator::cycle() {
+  
+}
   
