@@ -39,7 +39,6 @@ void Router::route() {
 
 
       if(this->get_neighbors().search_router(2).out_packets.is_empty() == false) {
-        cout << "Cost: " << this->get_neighbors().search_router(2).cost << endl;
         for(int i = 0; i < this->get_neighbors().search_router(2).cost; i++) {
           if(this->get_neighbors().search_router(2).out_packets.is_empty() == false) {
            
@@ -62,11 +61,7 @@ void Router::regenerate_pages() {
   if(this->get_entry_queue()->is_empty() == true) {
     cout << "No packets on Gate [[ " << this->get_name() << "]]" << endl;
   } else {
-    cout << "There are: " << this->get_entry_queue()->size() << " packets on Gate [[" << this->get_name() << "]]" << endl;
-    cout << "And they are: " << endl;
-    for(int i = 0; i < this->get_entry_queue()->size(); i++) {
-      cout << this->get_entry_queue()->search_packet_idx(i).data << endl;
-    }
+  
     for(int i = 0; i < this->get_entry_queue()->size(); i++) {
       for(int j = 0; j < this->get_entry_queue()->search_packet_idx(i).size; j++) {
         int ID = this->get_entry_queue()->search_packet_idx(i).ID;
@@ -76,7 +71,6 @@ void Router::regenerate_pages() {
             counter_of_packets++;
           }
         }
-        cout << "counter" << counter_of_packets << endl;
         if(counter_of_packets == this->get_entry_queue()->search_packet_idx(i).size) {
           Page regenerating_page;
           regenerating_page.ID = ID;
