@@ -44,18 +44,17 @@ p.data = "Hello World, to Emi";
 p.destination = 4;
 p.ID = 1;
 
+Page p2;
+p2.data = "Hello World, to terminal 0";
+p2.destination = 0;
+p2.ID = 2;
+
 network.get_router_by_id(1)->get_entry_pages()->push(p);
+network.get_router_by_id(2)->get_entry_pages()->push(p2);
 network.get_router_by_id(1)->run();
+network.get_router_by_id(2)->run();
 network.get_router_by_id(1)->run();
 
-
-
-network.get_router_by_id(2)->run();
-network.get_router_by_id(2)->run();
-
-network.get_router_by_id(2)->run();
-
-network.get_router_by_id(3)->run();
 
 
 

@@ -29,6 +29,7 @@ We had a similar situation with the regenerate_page method. We decided to make a
 We decieded to use Bubble Sort beacuse of simplicity. We use the sort on index for packets,
 on regenerate page, the number of packets is always less than a Byte, so there is no conflicts on time resource by using Bubble Sort.
 
+
 # COMMING FEATURES
 
 Generate the optimal paths
