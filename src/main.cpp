@@ -35,21 +35,16 @@ int main ()
   //simulator.begin();
 Page p;
 p.data = "Hello World, to Emi";
-p.destination = 5;
+p.destination = 4;
 p.ID = 1;
 
 network.get_router_by_id(1)->get_entry_pages()->push(p);
 network.get_router_by_id(1)->run();
 network.get_router_by_id(1)->run();
 
-network.get_router_by_id(2)->run();
-network.get_router_by_id(2)->run();
+
 
 network.get_router_by_id(2)->run();
-network.get_router_by_id(2)->run();
-
-network.get_router_by_id(2)->run();
-
 
 
 

@@ -37,13 +37,8 @@ We had a similar situation with the regenerate_page method. We decided to make a
 
 # COMMING FEATURES
 
-The system needs to regenerate the page, and send it to terminal when is regenerated,
-based on:
-  - The ID of the paket (is the same on the ID of page, so every packet whith the same ID
-  belongs to the same page, which has the same ID)
-  - If the size of the page equals to amount of packets on queue.
-  - If the queue has the last package, this is not comparable with amount of packets, because
-  packets can be mixed on queue.
-If conditions are true, then create a Page and  send it to the terminal, which must be the packets or page destination IP.
+Fix the problem that pages are regenerated upside down
+Generate the optimal paths
+
 
 

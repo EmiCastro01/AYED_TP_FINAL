@@ -42,13 +42,15 @@ void Router::route() {
         cout << "Cost: " << this->get_neighbors().search_router(2).cost << endl;
         for(int i = 0; i < this->get_neighbors().search_router(2).cost; i++) {
           if(this->get_neighbors().search_router(2).out_packets.is_empty() == false) {
-            this->get_neighbors().search_router(2).router->get_entry_queue()->push(this->get_neighbors().search_router(1).out_packets.pop());
+           
+            this->get_neighbors().search_router(2).router->get_entry_queue()->push(this->get_neighbors().search_router(2).out_packets.pop());
           } else {
             cout << "No packets to route to [[ " << this->get_name() << "]]" << endl;
           }
         }
       
   }
+
   cout << "Routing done [[ " << this->get_name() << "]]" << endl;
 }
 
@@ -61,6 +63,10 @@ void Router::regenerate_pages() {
     cout << "No packets on Gate [[ " << this->get_name() << "]]" << endl;
   } else {
     cout << "There are: " << this->get_entry_queue()->size() << " packets on Gate [[" << this->get_name() << "]]" << endl;
+    cout << "And they are: " << endl;
+    for(int i = 0; i < this->get_entry_queue()->size(); i++) {
+      cout << this->get_entry_queue()->search_packet_idx(i).data << endl;
+    }
     for(int i = 0; i < this->get_entry_queue()->size(); i++) {
       for(int j = 0; j < this->get_entry_queue()->search_packet_idx(i).size; j++) {
         int ID = this->get_entry_queue()->search_packet_idx(i).ID;
@@ -70,9 +76,8 @@ void Router::regenerate_pages() {
             counter_of_packets++;
           }
         }
-        cout << counter_of_packets << endl;
+        cout << "counter" << counter_of_packets << endl;
         if(counter_of_packets == this->get_entry_queue()->search_packet_idx(i).size) {
-          cout << "here" << endl;
           Page regenerating_page;
           regenerating_page.ID = ID;
           regenerating_page.destination = this->get_entry_queue()->search_packet_idx(i).destination;
@@ -113,7 +118,7 @@ void Router::listen() {
     cout << "No packets on Packets-Gate [[ " << this->get_name() << "]]" << endl;
   } else {
     Packet *packet = new Packet();
-    *packet = this->get_entry_queue()->pop();
+    *packet = this->get_entry_queue()->get_last();
     Router *opt_router = get_optimal_router(this, (int)packet->destination.to_ullong());
     if( this == opt_router){
         cout << "Final destination reached " << endl;
@@ -180,6 +185,7 @@ void Router::generate_packets(Page& page) {
   }
   cout << "Last packet generated: " << last_packet->data << endl;
   last_packet->last_package = true;
+  last_packet->ID = page.ID;
   last_packet->destination = page.destination;
   last_packet->size = packets_number + 1;
   this->get_neighbors().search_neighbor(opt_router).out_packets.push(*last_packet);
@@ -204,6 +210,7 @@ void Router::run() { // CYCLE
   this->regenerate_pages(); // 2
   this->route(); // 3
   this->flush(); // 4
+
 }
 
 Terminal::Terminal(string name, terminal_t type, int ID) {

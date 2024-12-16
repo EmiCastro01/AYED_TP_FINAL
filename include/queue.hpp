@@ -1,8 +1,9 @@
 #pragma once
 #include <iostream>
 
-
 using namespace std;
+
+class Router;
 
 //-----------------NODE-----------------
 template <class T> class Node {
@@ -33,6 +34,7 @@ template <class T> class Queue {
     T& search_router_idx(int index);
     T& search_packet(int key);
     T& search_packet_idx(int index);
+    T& search_neighbor(Router *router);
     bool exists_terminal(int key);
   
   private:
