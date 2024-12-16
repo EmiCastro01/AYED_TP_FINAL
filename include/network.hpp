@@ -23,6 +23,9 @@ class Network {
     bool check_matrix();
     Router routers_array[ROUTER_MAX_NO];
   public:
+    int caminos[ROUTER_MAX_NO][ROUTER_MAX_NO] = {0};
+    int A[ROUTER_MAX_NO][ROUTER_MAX_NO];
+    int cf[ROUTER_MAX_NO][ROUTER_MAX_NO];
     Network();
     void set_adjacency_matrix(const int (&matrix)[ROUTER_MAX_NO][ROUTER_MAX_NO]);
     void reinit();

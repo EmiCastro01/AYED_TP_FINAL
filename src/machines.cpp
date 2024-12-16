@@ -118,10 +118,10 @@ void Router::listen() {
         cout << "Final destination reached " << endl;
         return;
     }
-    cout << "Packet received: " << packet->data << ". Sending to: "<< (int)packet->destination.to_ullong() << endl;
+    cout << "Packet received: " << packet->data << ". Sending to Terminal "<< (int)packet->destination.to_ullong() << endl;
     opt_router->get_entry_queue()->push(*packet); // Just 1 packet
+    this->get_entry_queue()->pop();
     delete packet;
-    delete opt_router;
   }
 }
 
