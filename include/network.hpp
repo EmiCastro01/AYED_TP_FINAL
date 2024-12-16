@@ -34,6 +34,7 @@ class Network {
     Terminal* get_terminal_by_id(int id);
     Terminal* get_terminal_by_name(string name);
     Terminal* get_terminal_by_ip(IP ip);
+    const int (&get_adjacency_matrix() const)[ROUTER_MAX_NO][ROUTER_MAX_NO]; // Corrección aquí
     void send_page(Page page, Terminal *terminal, IP destination);
 
 };

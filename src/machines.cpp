@@ -72,6 +72,7 @@ void Router::regenerate_pages() {
           }
         }
         if(counter_of_packets == this->get_entry_queue()->search_packet_idx(i).size) {
+          this->get_entry_queue()->sort_packets(); // Bubble Sort
           Page regenerating_page;
           regenerating_page.ID = ID;
           regenerating_page.destination = this->get_entry_queue()->search_packet_idx(i).destination;
@@ -86,7 +87,6 @@ void Router::regenerate_pages() {
             if(this->get_entry_queue()->search_packet_idx(m).ID == ID) {
               this->get_entry_queue()->pop();
             }
-          cout << "Page well sent [[ " << this->get_name() << "]]" << endl;
 
         }
     }
@@ -182,6 +182,7 @@ void Router::generate_packets(Page& page) {
   last_packet->ID = page.ID;
   last_packet->destination = page.destination;
   last_packet->size = packets_number + 1;
+  last_packet->index = packets_number;
   this->get_neighbors().search_neighbor(opt_router).out_packets.push(*last_packet);
   cout << "All packets generated queued to neighbors.. [[" << this->get_name() << "]]"<< endl;
 }

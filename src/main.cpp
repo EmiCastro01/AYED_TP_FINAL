@@ -50,10 +50,6 @@ network.get_router_by_id(2)->run();
 
 
   
-  
-
-
-  
 
   return EXIT_SUCCESS; 
 }

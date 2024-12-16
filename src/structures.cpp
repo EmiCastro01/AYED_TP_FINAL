@@ -108,6 +108,49 @@ T Queue<T>::get_head() {
   return this->head->get_data();
 }
 
+template <class T>
+void Queue<T>::sort() {
+  if(this->is_empty() == true) {
+    cout << "Queue is empty" << endl;
+    return;
+  }
+  
+  Node<T>* node_temp = this->head;
+  while (node_temp != nullptr) {
+    Node<T>* node_temp2 = this->head;
+    while (node_temp2 != nullptr) {
+      if (node_temp->get_data() < node_temp2->get_data()) {
+        T temp = node_temp->get_data();
+        node_temp->get_data() = node_temp2->get_data();
+        node_temp2->get_data() = temp;
+      }
+      node_temp2 = node_temp2->get_next();
+    }
+    node_temp = node_temp->get_next();
+  }
+}
+
+template <class T>
+void Queue<T>::sort_packets() {
+  if(this->is_empty() == true) {
+    cout << "Queue is empty" << endl;
+    return;
+  }
+  
+  Node<Packet>* node_temp = this->head;
+  while (node_temp != nullptr) {
+    Node<Packet>* node_temp2 = this->head;
+    while (node_temp2 != nullptr) {
+      if (node_temp->get_data().index < node_temp2->get_data().index) {
+        Packet temp = node_temp->get_data();
+        node_temp->get_data() = node_temp2->get_data();
+        node_temp2->get_data() = temp;
+      }
+      node_temp2 = node_temp2->get_next();
+    }
+    node_temp = node_temp->get_next();
+  }
+}
 
 template<class T>
 T Queue<T>::search(int key) { 
