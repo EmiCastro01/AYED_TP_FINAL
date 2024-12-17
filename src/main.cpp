@@ -16,7 +16,7 @@ using namespace std;
 Admin sys_adm;
 int main ()
 {
-  load_configurations();
+  load_configurations("../config.json");
   Network network;
   network.set_adjacency_matrix( //example
     {
