@@ -24,7 +24,7 @@ class Terminal {
 
   public:
     Terminal(string name, terminal_t type, int ID);  
-    void send_page(Page page); 
+    void send_page(Page *page); 
     void receive_page(Page page);
     void connect_to_router(Router *router);
     string get_name();

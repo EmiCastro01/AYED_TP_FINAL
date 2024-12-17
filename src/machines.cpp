@@ -215,8 +215,9 @@ Terminal::Terminal(string name, terminal_t type, int ID) {
 }
 
 
-void Terminal::send_page(Page page) {
-  
+void Terminal::send_page(Page *page) {
+ this->current_data = page->data;
+ this->get_router()->get_entry_pages()->push(*page);
 }
 
 void Terminal::receive_page(Page page) {
@@ -227,7 +228,6 @@ void Terminal::receive_page(Page page) {
 void Terminal::connect_to_router(Router *router) {
   this->router = router;
 }
-
 
 string Terminal::get_name() {
   return this->name;
