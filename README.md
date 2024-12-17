@@ -29,10 +29,10 @@ We had a similar situation with the regenerate_page method. We decided to make a
 We decieded to use Bubble Sort beacuse of simplicity. We use the sort on index for packets,
 on regenerate page, the number of packets is always less than a Byte, so there is no conflicts on time resource by using Bubble Sort.
 
+## Why congestion matrix does not increment nodes when packets are sent
 
-# COMMING FEATURES
-
-Generate the optimal paths
+Because every router takes just one packet from entry gate on every cycle, and every channel
+has more than 1 of band width, so, on one cycle, the packets is pop out of the queue.
 
 
 
