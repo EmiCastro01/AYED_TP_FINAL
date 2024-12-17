@@ -36,12 +36,11 @@ IP Router::get_ip() {
 
 void Router::route() {
   cout << "Routing .. [[" << this->get_name() << "]]"<< endl;
-
   for(int s = 0; s < this->get_neighbors().size(); s++) {
-      if(this->get_neighbors().search_router(s).out_packets.is_empty() == false) {
-        for(int i = 0; i < this->get_neighbors().search_router(s).cost; i++) {
-           
-            this->get_neighbors().search_router(s).router->get_entry_queue()->push(this->get_neighbors().search_router(s).out_packets.pop());
+      if(this->get_neighbors().search_router_idx(s).out_packets.is_empty() == false) {
+          for(int i = 0; i < this->get_neighbors().search_router_idx(s).cost; i++) {
+            cout << "Routing packet to: " << this->get_neighbors().search_router_idx(s).router->get_name() << endl;
+            this->get_neighbors().search_router_idx(s).router->get_entry_queue()->push(this->get_neighbors().search_router_idx(s).out_packets.pop());
         }
       
   }

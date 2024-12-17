@@ -42,7 +42,8 @@ void Simulator::debug(bool debug_mode) {
 
 
 void Simulator::begin() {
-  cout << "Simulation initialized!!" << endl;
+  cout << "Simulation initialized!!" << endl << endl << endl;
+  cout << ">><<>><<>><<>>><<>><<>><<>>><<>><<>><<>>><<>><<>><<>>" << endl;
   if(this->debug_mode) {
     cout << ">> SIMULATOR >> Running on Debug mode" << endl;
     while (true) {
@@ -70,7 +71,8 @@ void Simulator::cycle() {
   cout << ">> SIMULATOR >> 3. Run a void step" << endl;
   cout << ">> SIMULATOR >> 4. Print Adjacency Matrix (Congestion Map)" << endl;
   cout << ">> SIMULATOR >> 5. Print Connections" << endl;
-  cout << ">> SIMULATOR >> 6. Exit" << endl;
+  cout << ">> SIMULATOR >> 6. Router for Terminals" << endl;
+  cout << ">> SIMULATOR >> 7. Exit" << endl;
   int option;
   cin >> option;
 
@@ -85,10 +87,12 @@ void Simulator::cycle() {
       cout << "When user press 'Run a void cycle', every router, in rising order, will be " << endl;
       cout << "executed. Due to this, packets may be sent to destination in just 1 void cycle." << endl;
       cout << "When user press 'Run a void step', the user will be ask to insert a router to execute." << endl;
-      cout << "'Print Congestion Map' & 'Print Connections' display maps with the current info." << endl << endl;
+      cout << "'Print Congestion Map' & 'Print Connections' display maps with the current info*." << endl << endl;
+      cout << "* Current info may be outdated beacuse of no-updating cycles." << endl;
       cin.get();
       cout << "Press any key to quit Help .. " << endl;
       cin.get();
+      this->cycle_counter--;
       break;
     }
     case 1: {
@@ -165,6 +169,19 @@ void Simulator::cycle() {
     }
 
     case 6: {
+        cout << ">> SIMULATOR >> Choose Terminal ID: ";
+        int terminal_id;
+        cin >> terminal_id;
+        Terminal *terminal = this->network->get_terminal_by_id(terminal_id);
+        if(terminal == nullptr) {
+          cout << ">> SIMULATOR >> Invalid Terminal ID" << endl;
+          break;
+        }
+        cout << ">> SIMULATOR >> Router for Terminal " << terminal_id << " is: " << terminal->get_router()->get_name() << endl;
+      break;
+    }
+
+    case 7: {
       exit(0);
       break;
     }
@@ -176,5 +193,7 @@ void Simulator::cycle() {
   if(this->cycle_counter % 2 == 0)
     this->sys_adm->calculate_optimal_routes();
   this->cycle_counter++;
+
+
   
 }
