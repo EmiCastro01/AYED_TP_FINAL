@@ -161,7 +161,6 @@ T Queue<T>::search(int key) {
     }
     node_temp = node_temp->get_next();
   }
-  cout << "Element not found: " << key <<" [[QUEUE]]" << endl;
   T empty;
   empty.terminal = nullptr;
   return empty;
@@ -176,7 +175,6 @@ T& Queue<T>::search_router(int key) {
     }
     node_temp = node_temp->get_next();
   }
-  cout << "Router not found: " << key <<" [[QUEUE]]" << endl;
   static T empty;
   empty.router = nullptr;
   return empty;
@@ -209,7 +207,6 @@ T& Queue<T>::search_neighbor(Router *router) {
     }
     node_temp = node_temp->get_next();
   }
-  cout << "Router not found: " << router->get_name() <<" [[QUEUE]]" << endl;
   static T empty;
   empty.router = nullptr;
   return empty;
@@ -231,12 +228,10 @@ T& Queue<T>::search_packet(int key) {
   Node<Packet>* node_temp = this->head;
   while (node_temp != nullptr) {
     if (node_temp->get_data().destination == key) {
-      cout << "Packet found: " << key <<" [[QUEUE]]" << endl;
       return node_temp->get_data();
     }
     node_temp = node_temp->get_next();
   }
-  cout << "Packet not found: " << key <<" [[QUEUE]]" << endl;
   static Packet empty;
   empty.destination = -1;
   return empty;

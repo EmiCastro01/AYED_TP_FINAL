@@ -248,6 +248,11 @@ string Terminal::get_type() {
     return "CLIENT";
   }
 }
+
+terminal_t Terminal::get_type_t() {
+  return this->type;
+}
+
 Data Terminal::get_current_data() {
   return this->current_data;
 }

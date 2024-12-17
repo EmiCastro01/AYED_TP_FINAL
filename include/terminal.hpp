@@ -33,4 +33,5 @@ class Terminal {
     Router* get_router();
     Data get_current_data();
     string get_type();
+    terminal_t get_type_t();
 };
