@@ -67,12 +67,10 @@ void Simulator::cycle() {
   if(c == 'y') {
     Page page;
     page.ID = this->cycle_counter;
-    page.destination = (this->cycle_counter + 5) % 10;
     cout << ">> SIMULATOR >> Enter data for page: " << endl;
     cin >> page.data;
-    cout << ">> SIMULATOR >> Enter destination Terminal: " << endl;
-    cin >> page.destination;
-    this->network->get_router_by_id(this->cycle_counter % 10)->get_entry_pages()->push(page);
+    page.destination = 4;
+    this->network->get_terminal_by_id(cycle_counter % 10)->send_page(&page);
   }
   this->network->get_router_by_id(cycle_counter % 10)->run();
   this->cycle_counter++;
