@@ -18,11 +18,10 @@ class Simulator {
     Simulator();
     void begin();
     void debug(bool debug_mode);
-    void strong_debug(bool debug_mode);
     void config(Network *network, Admin *sys_adm);
   private:
+ 
     bool debug_mode;   
-    bool strong_debug_mode; 
     int cycle_counter;
     Network *network;
     Admin *sys_adm;
@@ -31,13 +30,14 @@ class Simulator {
 
 Simulator::Simulator() {
   this->debug_mode = false;
-  this->strong_debug_mode = false;
   this->cycle_counter = 0;
 }
 
 void Simulator::debug(bool debug_mode) {
   this->debug_mode = debug_mode;
 }
+
+
 void Simulator::begin() {
   cout << "Simulation initialized!!" << endl;
   if(this->debug_mode) {
@@ -48,7 +48,9 @@ void Simulator::begin() {
     cin.get();
     }
   }
-  }
+  
+
+}
 
 void Simulator::config(Network *network, Admin *sys_adm) {
 
@@ -58,11 +60,18 @@ void Simulator::config(Network *network, Admin *sys_adm) {
 
 void Simulator::cycle() {
   cout << ">> SIMULATOR >> Cycle: " << this->cycle_counter << endl;
-  if(this->cycle_counter % 2 == 0) {
+  cout << ">> SIMULATOR >> Terminal: " << cycle_counter % 10 << endl;
+  cout << ">> SIMULATOR >> Send Page?: y/n" << endl;
+  char c;
+  cin >> c;
+  if(c == 'y') {
     Page page;
     page.ID = this->cycle_counter;
     page.destination = (this->cycle_counter + 5) % 10;
-    page.data = "Hello, terminal " + to_string(page.destination.to_ullong()) + "!";
+    cout << ">> SIMULATOR >> Enter data for page: " << endl;
+    cin >> page.data;
+    cout << ">> SIMULATOR >> Enter destination Terminal: " << endl;
+    cin >> page.destination;
     this->network->get_router_by_id(this->cycle_counter % 10)->get_entry_pages()->push(page);
   }
   this->network->get_router_by_id(cycle_counter % 10)->run();
