@@ -29,6 +29,8 @@ template <class T> class Queue {
     int size();
     bool is_empty();
     void print_queue();
+    void sort();
+    void sort_packets();
     T search(int key);
     T& search_router(int key);
     T& search_router_idx(int index);

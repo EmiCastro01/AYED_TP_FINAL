@@ -23,6 +23,9 @@ class Network {
     bool check_matrix();
     Router routers_array[ROUTER_MAX_NO];
   public:
+    int caminos[ROUTER_MAX_NO][ROUTER_MAX_NO] = {0};
+    int A[ROUTER_MAX_NO][ROUTER_MAX_NO];
+    int cf[ROUTER_MAX_NO][ROUTER_MAX_NO];
     Network();
     void set_adjacency_matrix(const int (&matrix)[ROUTER_MAX_NO][ROUTER_MAX_NO]);
     void reinit();
@@ -34,6 +37,7 @@ class Network {
     Terminal* get_terminal_by_id(int id);
     Terminal* get_terminal_by_name(string name);
     Terminal* get_terminal_by_ip(IP ip);
+    const int (&get_adjacency_matrix() const)[ROUTER_MAX_NO][ROUTER_MAX_NO]; // Corrección aquí
     void send_page(Page page, Terminal *terminal, IP destination);
 
 };

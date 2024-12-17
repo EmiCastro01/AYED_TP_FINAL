@@ -3,15 +3,6 @@
 This project simulates a system with routers and machines that can transfer
 packages of data themselves......
 
-# UPDATES
-
-The project can generate de network between routers, with neighbors. Neighbors are stored on each
-router with a queue of neighbor_t structures, that have the ID and cost.
-The project can generate router->terminal connections, and generate a queue with
-the terminals corresponding of each router. Every terminal has a unique ID.
-The project can ask the network to search terminals by ID; so Simulator can operate them
-to send data and recieve them.
-
 
 # Justify Trade-off Time-Space
 
@@ -33,11 +24,14 @@ We had a similar situation with the regenerate_page method. We decided to make a
   but is on a PC, so we priorized that resource.
 
 
+## Sort Type Justify
+
+We decieded to use Bubble Sort beacuse of simplicity. We use the sort on index for packets,
+on regenerate page, the number of packets is always less than a Byte, so there is no conflicts on time resource by using Bubble Sort.
 
 
 # COMMING FEATURES
 
-Fix the problem that pages are regenerated upside down
 Generate the optimal paths
 
 

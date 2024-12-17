@@ -15,6 +15,9 @@ Network::Network() {
   cout << "No routers connected." << endl;
 }
 
+const int (&Network::get_adjacency_matrix() const)[ROUTER_MAX_NO][ROUTER_MAX_NO] {
+  return this->adjacency_matrix;
+}
 bool Network::check_matrix()
 {
  for(int i = 0; i < ROUTER_MAX_NO; i++){
