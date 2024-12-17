@@ -28,9 +28,11 @@ class Network {
     int cf[ROUTER_MAX_NO][ROUTER_MAX_NO];
     Network();
     void set_adjacency_matrix(const int (&matrix)[ROUTER_MAX_NO][ROUTER_MAX_NO]);
+    void update_adj_with_congestion();
     void reinit();
     void print_adjacency_matrix();
     bool generate_network();
+    int get_routers_no();
     Router* get_router_by_id(int id);
     Router* get_router_by_name(string name);
     Router* get_router_by_ip(IP ip);

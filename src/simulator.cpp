@@ -73,6 +73,9 @@ void Simulator::cycle() {
     this->network->get_terminal_by_id(cycle_counter % 10)->send_page(&page);
   }
   this->network->get_router_by_id(cycle_counter % 10)->run();
+  if(cycle_counter % 2 == 0) {
+    this->sys_adm->calculate_optimal_routes();    // every 2 cycles calculate optimal routes (congestion)
+  }
   this->cycle_counter++;
 ; 
 }

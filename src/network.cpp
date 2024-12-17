@@ -1,6 +1,8 @@
 #include <iostream>
 #include "../include/network.hpp"
 
+#define INFI std::numeric_limits<int>::max()
+
 using namespace std;
 
 int terminals_per_router = 1;
@@ -127,6 +129,10 @@ Terminal* Network::get_terminal_by_id(int id) {
   return nullptr;
 }
 
+int Network::get_routers_no() {
+  return ROUTER_MAX_NO;
+}
+
 Router* Network::get_router_by_name(string name) {
   for (int i = 0; i < ROUTER_MAX_NO; i++) {
     if (this->routers_array[i].get_name() == name) {
@@ -139,7 +145,17 @@ Router* Network::get_router_by_name(string name) {
 void Network::send_page(Page page, Terminal *terminal, IP destination) {
   cout << "Sending page to " << destination << "..." << endl;
   Packet packet;
- // TODO: Implement the send_page method
   cout << "Page sent to " << destination << "..." << endl;
 }
 
+void Network::update_adj_with_congestion() {
+    for (int i = 0; i < ROUTER_MAX_NO; ++i) {
+            for (int j = 0; j < ROUTER_MAX_NO; ++j) {
+                if (adjacency_matrix[i][j] != INFI && i != j) {
+                    int congestion = routers_array[i].get_neighbors().search_router(j).out_packets.size();
+                    adjacency_matrix[i][j] = congestion; 
+            }
+        }
+
+    }
+}
