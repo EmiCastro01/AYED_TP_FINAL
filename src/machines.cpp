@@ -113,6 +113,8 @@ void Router::listen() {
     cout << "No packets on Packets-Gate [[" << this->get_name() << "]]" << endl;
   } else {
     Packet *packet = new Packet();
+
+    for(int i = 0; i < this->get_entry_queue()->size(); i++) {
     *packet = this->get_entry_queue()->get_last();
     Router *opt_router = get_optimal_router(this, (int)packet->destination.to_ullong());
     if( this->get_terminals().exists_terminal((int)packet->destination.to_ullong()) ) {
@@ -122,6 +124,7 @@ void Router::listen() {
     cout << "Packet received: " << packet->data << ". Destination:  "<< (int)packet->destination.to_ullong() << endl;
     this->get_neighbors().search_neighbor(opt_router).out_packets.push(*packet);
     this->get_entry_queue()->pop();
+    }
     delete packet;
   }
 }
