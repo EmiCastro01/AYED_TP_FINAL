@@ -110,7 +110,7 @@ void Router::listen() {
    cout << "Listening on Routers .. [[" << this->get_name() << "]]"<< endl;
 
   if(this->get_entry_queue()->is_empty() == true) {
-    cout << "No packets on Packets-Gate [[ " << this->get_name() << "]]" << endl;
+    cout << "No packets on Packets-Gate [[" << this->get_name() << "]]" << endl;
   } else {
     Packet *packet = new Packet();
     *packet = this->get_entry_queue()->get_last();
@@ -120,7 +120,7 @@ void Router::listen() {
         return;
     }
     cout << "Packet received: " << packet->data << ". Destination:  "<< (int)packet->destination.to_ullong() << endl;
-    opt_router->get_entry_queue()->push(*packet); // Just 1 packet
+    this->get_neighbors().search_neighbor(opt_router).out_packets.push(*packet);
     this->get_entry_queue()->pop();
     delete packet;
   }
