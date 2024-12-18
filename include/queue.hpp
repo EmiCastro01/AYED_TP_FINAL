@@ -34,6 +34,7 @@ template <class T> class Queue {
     T search(int key);
     T& search_router(int key);
     T& search_router_idx(int index);
+    T& search_terminal_idx(int index);
     T& search_packet(int key);
     T& search_packet_idx(int index);
     T& search_neighbor(Router *router);

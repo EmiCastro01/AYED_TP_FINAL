@@ -80,7 +80,10 @@ void Router::regenerate_pages() {
             }
           }
           cout << "Page regenerated: " << regenerating_page.data << ". Sending to: "<< (int)regenerating_page.destination.to_ullong() << endl;
-          this->get_terminals().search((int)regenerating_page.destination.to_ullong()).out_pages.push(regenerating_page);
+         
+
+          this->get_terminals().search((int)regenerating_page.destination.to_ullong()).out_pages->push(regenerating_page);
+                    cout << "Size of out_pages: " << this->get_terminals().search((int)regenerating_page.destination.to_ullong()).out_pages->size() << endl;
           for(int m = 0; m < this->get_entry_queue()->size(); m++) {
             if(this->get_entry_queue()->search_packet_idx(m).ID == ID) {
               this->get_entry_queue()->pop();
@@ -125,6 +128,12 @@ void Router::listen() {
 
 void Router::flush() {
   cout << "Flushing ..  " << " [[" << this->get_name() << "]]"<< endl;
+  for(int i = 0; i < this->get_terminals().size(); i++) {
+    if(this->get_terminals().search_terminal_idx(i).out_pages->is_empty() == false) {
+        cout << "Flushing page to: " << this->get_terminals().search_terminal_idx(i).terminal->get_name() << endl;
+        this->get_terminals().search_terminal_idx(i).terminal->get_entry_gate()->push(this->get_terminals().search_terminal_idx(i).out_pages->pop());
+       }
+  }
 }
 
 void Router::add_neighbor(Router *router, int cost) {
@@ -140,6 +149,7 @@ void Router::add_neighbor(Router *router, int cost) {
 void Router::add_terminal(Terminal *terminalPointer, int cost) {
   terminals_t terminal_;
   terminal_.terminal = terminalPointer;
+  terminal_.out_pages = new Queue<Page>();
   terminal_.terminal->connect_to_router(this);
   this->terminals.push(terminal_);
 }
@@ -211,6 +221,7 @@ Terminal::Terminal(string name, terminal_t type, int ID) {
   this->type = type;
   this->ID = ID;
   this->ip = MASK_TERMINAL_ADDRESS & ID; // mask the ID to get the last byte
+  this->entry_gate = Queue<Page>();
 }
 
 
@@ -219,9 +230,13 @@ void Terminal::send_page(Page *page) {
  this->get_router()->get_entry_pages()->push(*page);
 }
 
-void Terminal::receive_page(Page page) {
-  cout << "Receiving data" << endl;
-  // this->router->process_data(data);    The terminal calls the router to process the data
+void Terminal::receive_page() {
+  if(this->get_entry_gate()->is_empty() == true) {
+    cout << "No pages to receive [[ " << this->get_name() << "]]" << endl;
+    return;
+  }
+  this->current_data = this->get_entry_gate()->pop().data;
+  cout << "Page received: " << this->current_data  << "[[" << this->get_name() << "]]"<< endl;
 }
 
 void Terminal::connect_to_router(Router *router) {
@@ -258,4 +273,8 @@ Data Terminal::get_current_data() {
 
 IP Terminal::get_ip() {
   return this->ip;
+}
+
+Queue<Page>* Terminal::get_entry_gate() {
+  return &this->entry_gate;
 }

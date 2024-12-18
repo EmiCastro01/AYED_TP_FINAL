@@ -66,13 +66,14 @@ void Simulator::cycle() {
   cout << ">> SIMULATOR >> Cycle: " << this->cycle_counter << endl;
   cout << ">> SIMULATOR >> Options: " << endl;
   cout << ">> SIMULATOR >> 0. Help" << endl;
-  cout << ">> SIMULATOR >> 1. Choose Terminal" << endl;
+  cout << ">> SIMULATOR >> 1. Sender Terminal" << endl;
   cout << ">> SIMULATOR >> 2. Run a void cycle" << endl;
   cout << ">> SIMULATOR >> 3. Run a void step" << endl;
   cout << ">> SIMULATOR >> 4. Print Adjacency Matrix (Congestion Map)" << endl;
   cout << ">> SIMULATOR >> 5. Print Connections" << endl;
   cout << ">> SIMULATOR >> 6. Router for Terminals" << endl;
-  cout << ">> SIMULATOR >> 7. Exit" << endl;
+  cout << ">> SIMULATOR >> 7. Receiver Terminal" << endl;
+  cout << ">> SIMULATOR >> 8. Exit" << endl;
   int option;
   cin >> option;
 
@@ -180,8 +181,20 @@ void Simulator::cycle() {
         cout << ">> SIMULATOR >> Router for Terminal " << terminal_id << " is: " << terminal->get_router()->get_name() << endl;
       break;
     }
-
     case 7: {
+      cout << ">> SIMULATOR >> Choose Terminal ID: ";
+      int terminal_id;
+      cin >> terminal_id;
+      Terminal *terminal = this->network->get_terminal_by_id(terminal_id);
+      if(terminal == nullptr || terminal->get_type_t() == CLIENT) {
+        cout << ">> SIMULATOR >> Invalid Terminal ID or Client Terminal" << endl;
+        break;
+      }
+      cout << ">> SIMULATOR >> Terminal chosen: " << terminal_id << endl;
+      terminal->receive_page();
+      break;
+    }
+    case 8: {
       exit(0);
       break;
     }

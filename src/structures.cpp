@@ -166,6 +166,15 @@ T Queue<T>::search(int key) {
   return empty;
 }
 
+template<class T> 
+T& Queue<T>::search_terminal_idx(int index) { 
+  Node<terminals_t>* node_temp = this->head;
+  for (int i = 0; i < index; i++) {
+    node_temp = node_temp->get_next();
+  }
+  return node_temp->get_data();
+}
+
 template<class T> //overload for neighbor_t
 T& Queue<T>::search_router(int key) { 
   Node<neighbor_t>* node_temp = this->head;
