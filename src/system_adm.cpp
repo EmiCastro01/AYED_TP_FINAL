@@ -20,7 +20,6 @@ Router* Admin::get_optimal_router(Router *__from, int __to) {
 void Admin::calculate_optimal_routes() {
   cout << "Calculating optimal routes [[ ADMIN ]]" << endl;
   this->network->update_adj_with_congestion();
-  this->network->print_adjacency_matrix();
   warshall(this->network->get_adjacency_matrix(), this->network->caminos);
   floyd(this->network->get_adjacency_matrix(), this->network->A, this->network->cf);
 }

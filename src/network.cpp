@@ -57,7 +57,11 @@ void Network::reinit() {
 void Network::print_adjacency_matrix() {
   for (int i = 0; i < ROUTER_MAX_NO; i++) {
     for (int j = 0; j < ROUTER_MAX_NO; j++) {
-      cout << this->adjacency_matrix[i][j] << " ";
+      if(this->adjacency_matrix[i][j] == INFI){
+        cout << "- ";
+      }else {
+        cout << this->adjacency_matrix[i][j] << " ";
+      }
     }
     cout << endl;
   }
@@ -75,8 +79,9 @@ bool Network::generate_network() {
   cout << "Generating connections [[ROUTERS]]..." << endl;
   for (int i = 0; i < ROUTER_MAX_NO; i++) {
     for (int j = 0; j < ROUTER_MAX_NO; j++) {
-      if (this->adjacency_matrix[i][j] != 0) {
+      if (this->adjacency_matrix[i][j] != 0 && this->adjacency_matrix[i][j] != INFI && i != j) {
         get_router_by_id(i)->add_neighbor(get_router_by_id(j), this->adjacency_matrix[i][j]);
+        if(this->adjacency_matrix[i][j] != INFI)
         cout << "Router " << i << " connected to Router " << j <<   " with cost: " << this->adjacency_matrix[i][j] << endl;
       }
     }
@@ -149,10 +154,13 @@ void Network::send_page(Page page, Terminal *terminal, IP destination) {
 }
 
 void Network::update_adj_with_congestion() {
+   int k = 0;
     for (int i = 0; i < ROUTER_MAX_NO; ++i) {
             for (int j = 0; j < ROUTER_MAX_NO; ++j) {
+             k = 0;
                 if (adjacency_matrix[i][j] != INFI && i != j) {
-                    int congestion = routers_array[i].get_neighbors().search_router(j).out_packets.size();
+                    int congestion = this->routers_array[i].get_neighbors().search_router_idx(k).out_packets.size();
+                    k++;
                     adjacency_matrix[i][j] = congestion; 
             }
         }
