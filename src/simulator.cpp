@@ -51,6 +51,12 @@ void Simulator::begin() {
     cout << ">> SIMULATOR >> Press any key to next cycle .." << endl;
     cin.get();
     }
+  } 
+  else {
+    while (true) {
+      //generate_traffic();
+      
+    }
   }
   
 
@@ -73,7 +79,8 @@ void Simulator::cycle() {
   cout << ">> SIMULATOR >> 5. Print Connections" << endl;
   cout << ">> SIMULATOR >> 6. Router for Terminals" << endl;
   cout << ">> SIMULATOR >> 7. Receiver Terminal" << endl;
-  cout << ">> SIMULATOR >> 8. Exit" << endl;
+  cout << ">> SIMULATOR >> 8. Print Band-Width of Channels" << endl;
+  cout << ">> SIMULATOR >> 9. Exit" << endl;
   int option;
   cin >> option;
 
@@ -197,6 +204,30 @@ void Simulator::cycle() {
       break;
     }
     case 8: {
+      cout << ">> SIMULATOR >> Printing Band-Width of Channels" << endl;
+      bool structured = true;
+      for (int i = 0; i < this->network->get_routers_no(); i++) {
+          if(this->network->get_adjacency_matrix()[i][i] == -1)
+            structured = false;
+        for (int j = 0; j < this->network->get_routers_no(); j++) {
+          if(this->network->get_adjacency_matrix()[i][j] == -1)
+            continue;
+          if (this->network->get_adjacency_matrix()[i][j] != INFI && i != j) {
+            cout << this->network->get_router_by_id(i)->get_neighbors().search_router(j).cost << " ";
+          }
+          if(this->network->get_adjacency_matrix()[i][j] == INFI ) {
+            cout << "- ";
+          }
+          if(i == j) {
+            cout << "x ";
+        }
+        }
+        if(structured)
+        cout << endl;
+      }
+      break;
+    }
+    case 9: {
       exit(0);
       break;
     }

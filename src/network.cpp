@@ -66,6 +66,8 @@ void Network::print_adjacency_matrix() {
         
       if(this->adjacency_matrix[i][j] == INFI){
         cout << "- ";
+      }else if(i == j){
+        cout <<  "x ";
       }else {
         cout << this->adjacency_matrix[i][j] << " ";
       }

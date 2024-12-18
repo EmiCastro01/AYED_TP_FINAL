@@ -1,5 +1,5 @@
 {
-  "number of routers": 10,
+  "number of routers": 15,
   "terminals per router": 2,
   "adjacency matrix file": "adjacency_matrix.txt",
   "band width file": "routing_table.txt",

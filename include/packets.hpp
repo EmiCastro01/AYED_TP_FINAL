@@ -6,7 +6,7 @@
 #define BYTES_PER_IP 2
 #define BYTE 8
 
-#define MAX_PACKET_SIZE 8   // in this example, every packet can have only 8 characters
+#define MAX_PACKET_SIZE 8   
 
 using namespace std;
 
