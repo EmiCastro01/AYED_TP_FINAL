@@ -130,7 +130,7 @@ void Simulator::cycle() {
     }
     case 2: {
       cout << ">> SIMULATOR >> Running a void cycle" << endl;
-      for(int i = 0; i < network->get_routers_no(); i++) {
+      for(int i = 0; i < sys_adm->get_current_routers_no(); i++) {
         network->get_router_by_id(i)->run();
       }
       cout << ">> SIMULATOR >> All routers executed!" << endl;
@@ -159,6 +159,8 @@ void Simulator::cycle() {
       cout << ">> SIMULATOR >> Printing Connections" << endl;
       for (int i = 0; i < this->network->get_routers_no(); i++) {
     for (int j = 0; j < this->network->get_routers_no(); j++) {
+      if(this->network->get_adjacency_matrix()[i][j] == -1)
+        continue;
       if (this->network->get_adjacency_matrix()[i][j] != INFI && i != j) {
         cout << "Router " << i << " connected to Router " << j <<   " with cost: " << this->network->get_router_by_id(i)->get_neighbors().search_router(j).cost << endl;
       

@@ -55,14 +55,22 @@ void Network::reinit() {
 }
 
 void Network::print_adjacency_matrix() {
+  bool structured = true;
   for (int i = 0; i < ROUTER_MAX_NO; i++) {
+    if(this->adjacency_matrix[i][i] == -1)
+      structured = false;
+     
     for (int j = 0; j < ROUTER_MAX_NO; j++) {
+        if(this->adjacency_matrix[i][j] == -1)
+          continue;
+        
       if(this->adjacency_matrix[i][j] == INFI){
         cout << "- ";
       }else {
         cout << this->adjacency_matrix[i][j] << " ";
       }
     }
+    if(structured)
     cout << endl;
   }
 }
@@ -71,6 +79,8 @@ bool Network::generate_network() {
 
   cout << "Creating routers [[ROUTERS]]..." << endl;
   for(int i = 0; i < ROUTER_MAX_NO; i++){
+    if(this->adjacency_matrix[i][i] == -1)
+      break;
     Router router("Router" + to_string(i), i);
     this->routers_array[i] = router;
     cout << "Router created: " << router.get_name() << endl;
@@ -79,6 +89,8 @@ bool Network::generate_network() {
   cout << "Generating connections [[ROUTERS]]..." << endl;
   for (int i = 0; i < ROUTER_MAX_NO; i++) {
     for (int j = 0; j < ROUTER_MAX_NO; j++) {
+      if(this->adjacency_matrix[i][j] == -1)
+        continue;
       if (this->adjacency_matrix[i][j] != 0 && this->adjacency_matrix[i][j] != INFI && i != j) {
         get_router_by_id(i)->add_neighbor(get_router_by_id(j), this->adjacency_matrix[i][j]);
         if(this->adjacency_matrix[i][j] != INFI)
@@ -90,6 +102,8 @@ bool Network::generate_network() {
   cout << "Creating terminals [[TERMINALS]]..." << endl;
   int terminal_id = 0;
   for(int i = 0; i < ROUTER_MAX_NO; i++){
+    if(this->adjacency_matrix[i][i] == -1)
+      break;
     for(int j = 0; j < terminals_per_router; j++){ // maybe we could change this logic, not neccessary a client for each reciever
       Terminal *terminal_r = new Terminal("Terminal" + to_string(terminal_id), RECIEVER, terminal_id);
       terminal_id++;
@@ -103,6 +117,8 @@ bool Network::generate_network() {
   }
   cout << "Printing terminals per router [[NETWORK]]" << endl;
   for(int i = 0; i < ROUTER_MAX_NO; i++){
+    if(this->adjacency_matrix[i][i] == -1)
+      break;
     cout << "Router " << i << " has " << get_router_by_id(i)->get_terminals().get_head().terminal->get_ID() << ", " << 
     get_router_by_id(i)->get_terminals().get_last().terminal->get_ID() << endl;
   }
@@ -154,16 +170,11 @@ void Network::send_page(Page page, Terminal *terminal, IP destination) {
 }
 
 void Network::update_adj_with_congestion() {
-   int k = 0;
-    for (int i = 0; i < ROUTER_MAX_NO; ++i) {
-            for (int j = 0; j < ROUTER_MAX_NO; ++j) {
-             k = 0;
-                if (adjacency_matrix[i][j] != INFI && i != j) {
-                    int congestion = this->routers_array[i].get_neighbors().search_router_idx(k).out_packets.size();
-                    k++;
-                    adjacency_matrix[i][j] = congestion; 
-            }
-        }
-
+  for(int i = 0; i < ROUTER_MAX_NO; i++){
+    for(int j = 0; j < ROUTER_MAX_NO; j++){
+      if(this->adjacency_matrix[i][j] != INFI && i!=j && this->adjacency_matrix[i][j] != -1){
+        this->adjacency_matrix[i][j] = this->routers_array[i].get_neighbors().search_router(j).out_packets.size();
+      }
     }
+  }
 }

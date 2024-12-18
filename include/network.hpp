@@ -4,7 +4,7 @@
 #include "packets.hpp"
 #include "terminal.hpp"
 
-#define ROUTER_MAX_NO 10
+#define ROUTER_MAX_NO 256
 using namespace std;
 
 /**

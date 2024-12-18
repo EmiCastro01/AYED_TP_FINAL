@@ -4,19 +4,14 @@
 #include <string>
 #include <algorithm>
 
+#include "../include/utils.hpp"
+
 using namespace std;
 
-typedef struct {
-    int number_of_routers;
-    int terminals_per_router;
-    std::string adjacency_matrix_file;
-    std::string band_width_file;
-    int max_page_size;
-} configurations_t;
 
-void load_configurations(const string& filename) {
+configurations_t* load_configurations(const string& filename) {
     cout << "Loading configurations" << endl;
-    configurations_t config;
+    configurations_t *config = new configurations_t;
     ifstream file(filename);
     string line;
 
@@ -40,15 +35,15 @@ void load_configurations(const string& filename) {
 
             // Asignar valores a la estructura de configuración
             if (key == "numberofrouters") {
-                config.number_of_routers = stoi(value);
+                config->number_of_routers = stoi(value);
             } else if (key == "terminalsperrouter") {
-                config.terminals_per_router = stoi(value);
+                config->terminals_per_router = stoi(value);
             } else if (key == "adjacencymatrixfile") {
-                config.adjacency_matrix_file = value;
+                config->adjacency_matrix_file = value;
             } else if (key == "bandwidthfile") {
-                config.band_width_file = value;
+                config->band_width_file = value;
             } else if (key == "maxpagesize") {
-                config.max_page_size = stoi(value);
+                config->max_page_size = stoi(value);
             }
         }
     }
@@ -56,10 +51,11 @@ void load_configurations(const string& filename) {
     file.close();
 
     // Imprimir la configuración para verificar
-    cout << "Number of routers: " << config.number_of_routers << endl;
-    cout << "Terminals per router: " << config.terminals_per_router << endl;
-    cout << "Adjacency matrix file: " << config.adjacency_matrix_file << endl;
-    cout << "Band width file: " << config.band_width_file << endl;
-    cout << "Max page size: " << config.max_page_size << endl;
+    cout << "Number of routers: " << config->number_of_routers << endl;
+    cout << "Terminals per router: " << config->terminals_per_router << endl;
+    cout << "Adjacency matrix file: " << config->adjacency_matrix_file << endl;
+    cout << "Band width file: " << config->band_width_file << endl;
+    cout << "Max page size: " << config->max_page_size << endl;
+  return config;
 }
 
