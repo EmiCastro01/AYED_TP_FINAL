@@ -1,19 +1,25 @@
 #pragma once
 #include <iostream>
+
 #include "network.hpp"
-
-
+#include "dijkstra.hpp"
+#include "utils.hpp"
 
 using namespace std;
 
-class Admin{
-  private: 
+class Admin {
+   private:
     Network *network;
-  public:
+    configurations_t *configurations;
+
+   public:
     Admin();
-    void load_configurations();
+    void config(configurations_t *config);
     void set_network(Network *network);
-    Router* get_optimal_router(Router *__from, int __to);
+    Router *get_optimal_router(Router *__from, int __to);
+    void calculate_optimal_routes();
+    void check_congestion();
+    int get_current_routers_no();
 };
 
-Router* get_optimal_router(Router *__from, int __to);
+Router *get_optimal_router(Router *__from, int __to);
