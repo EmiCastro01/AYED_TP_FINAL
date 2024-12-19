@@ -30,7 +30,7 @@ Router *Admin::get_optimal_router(Router *__from, int __to) {
     cout << "Getting optimal router" << endl;
     dijkstra(this->network->get_adjacency_matrix(), __from->get_ID(), __to,
              this->network->Pre, this->configurations->number_of_routers);
-            
+
     int next = next_opt(this->network->Pre, __from->get_ID(), __to);
     cout << "Next hop is: " << next << endl;
     Router *return_router = this->network->get_router_by_id(next);
@@ -38,8 +38,8 @@ Router *Admin::get_optimal_router(Router *__from, int __to) {
 }
 
 /**
- * @brief Uses FLoyd-Warshall algorithm to calculate the optimal routes.
- * (opt_fw.hpp file)
+ * @brief Uses Dijkstra algorithm to calculate the optimal routes.
+ * (Dijkstra.hpp file)
  */
 
 void Admin::calculate_optimal_routes() {
@@ -50,7 +50,6 @@ void Admin::calculate_optimal_routes() {
     floyd(this->network->get_adjacency_matrix(), this->network->A,
           this->network->cf, this->configurations->number_of_routers);
           */
-    
 }
 
 int Admin::get_current_routers_no() {

@@ -9,14 +9,12 @@ using namespace std;
 Router::Router() {
     this->name = "Router-";
     this->ID = 0;
-    this->gate = NO_ASSIGNED;
 }
 Router::Router(string name, int ID) {
     this->gate_pages = Queue<Page>();
     this->gate_packets = Queue<Packet>();
     this->name = name;
     this->ID = ID;
-    this->gate = NO_ASSIGNED;
     this->ip = MASK_ROUTER_ADDRESS &
                (ID <<= BYTE);  // mask the ID to get the last byte
     this->neighbors = Queue<neighbor_t>();

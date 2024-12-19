@@ -9,13 +9,6 @@
 
 using namespace std;
 
-typedef enum {
-    OPEN,
-    CLOSE,
-    FLUSHING,
-    NO_ASSIGNED,
-} RouterGate;
-
 typedef struct {
     int ID;
     int cost;
@@ -26,7 +19,7 @@ typedef struct {
 
 typedef struct {
     Terminal* terminal;
-    //Queue<Data> data;
+    // Queue<Data> data;
     Queue<Page>* out_pages;
 } terminals_t;
 
@@ -35,7 +28,6 @@ class Router {
     string name;
     int ID;
     IP ip;
-    RouterGate gate;
     Queue<neighbor_t> neighbors;
     Queue<terminals_t> terminals;
     Queue<Packet> gate_packets;  // entry data from other routers
@@ -43,6 +35,8 @@ class Router {
     void generate_packets(Page& page);
     void regenerate_pages();
     void listen();  // listen gates
+    void flush();  // send the page to local terminals
+
 
    public:
     Router(string name, int ID);
@@ -51,7 +45,6 @@ class Router {
     int get_ID();
     IP get_ip();
     void route();  // Execute the process of redirect packets
-    void flush();  // send the page to local terminals
     void add_neighbor(Router* router, int cost);
     void add_terminal(Terminal* terminal, int cost);
     void status_dump();

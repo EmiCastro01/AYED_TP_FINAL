@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
 
-#include "network.hpp"
 #include "dijkstra.hpp"
+#include "network.hpp"
 #include "utils.hpp"
 
 using namespace std;

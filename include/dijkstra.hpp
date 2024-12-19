@@ -1,6 +1,6 @@
+#include <cstdlib>
 #include <iostream>
 #include <limits>
-#include <cstdlib>
 
 #define INFI std::numeric_limits<int>::max()
 #define ROUTER_MAX_NO 256
@@ -10,7 +10,8 @@
 
 using namespace std;
 
-int *dijkstra(const int C[][ROUTER_MAX_NO], int s, int t, int Pre[], int endpoint) {
+int *dijkstra(const int C[][ROUTER_MAX_NO], int s, int t, int Pre[],
+              int endpoint) {
     static int D[ROUTER_MAX_NO];
     int S[ROUTER_MAX_NO];
     int actual, i, k, b;
@@ -60,8 +61,7 @@ void camino(int P[], int s, int t) {
 }
 
 int next_opt(int Pre[], int s, int t) {
-  if(s == t) 
-  return s;
+    if (s == t) return s;
     if (Pre[t] == s) {
         return t;
     } else {
