@@ -1,11 +1,11 @@
 #include <iostream>
+#include <random>
 #include "../include/network.hpp"
 
 #define INFI std::numeric_limits<int>::max()
 
 using namespace std;
 
-int terminals_per_router = 1;
 
 Network::Network() {
   for (int i = 0; i < ROUTER_MAX_NO; i++) {
@@ -102,27 +102,31 @@ bool Network::generate_network() {
   }
   cout << "Connections are well generated <<" << endl;
   cout << "Creating terminals [[TERMINALS]]..." << endl;
+
+  random_device rd;
+  mt19937 gen(rd());
+  uniform_int_distribution<> dis(0, 1);
   int terminal_id = 0;
   for(int i = 0; i < ROUTER_MAX_NO; i++){
     if(this->adjacency_matrix[i][i] == -1)
       break;
-    for(int j = 0; j < terminals_per_router; j++){ // maybe we could change this logic, not neccessary a client for each reciever
-      Terminal *terminal_r = new Terminal("Terminal" + to_string(terminal_id), RECIEVER, terminal_id);
+    for(int j = 0; j < terminals_per_router; j++){ 
+      terminal_t type = dis(gen) == 0 ? RECIEVER : CLIENT;
+      Terminal *terminal = new Terminal("Terminal" + to_string(terminal_id), type, terminal_id);
       terminal_id++;
-      Terminal *terminal_c = new Terminal("Terminal" + to_string(terminal_id), CLIENT, terminal_id);
-      terminal_id++;
-      get_router_by_id(i)->add_terminal(terminal_r, 1);
-      get_router_by_id(i)->add_terminal(terminal_c, 1);
-      cout << "Terminal created: " << terminal_c->get_name() << " is: " << terminal_c->get_type() << endl;
-      cout << "Terminal created: " << terminal_r->get_name() << " is: " << terminal_r->get_type() << endl;
+      get_router_by_id(i)->add_terminal(terminal, 1);
+      cout << "Terminal created: " << terminal->get_name() << " is: " << terminal->get_type() << endl;
     }
   }
   cout << "Printing terminals per router [[NETWORK]]" << endl;
   for(int i = 0; i < ROUTER_MAX_NO; i++){
     if(this->adjacency_matrix[i][i] == -1)
       break;
-    cout << "Router " << i << " has " << get_router_by_id(i)->get_terminals().get_head().terminal->get_ID() << ", " << 
-    get_router_by_id(i)->get_terminals().get_last().terminal->get_ID() << endl;
+       cout << "Router " << i << " has ";
+      for(int j = 0; j < terminals_per_router; j++){
+        cout << get_router_by_id(i)->get_terminals().search_terminal_idx(j).terminal->get_name() << ", ";
+      }
+      cout << endl;
   }
   cout << "Terminals are well created <<" << endl;
   cout << "Terminals and Routers are well connected <<" << endl;
@@ -179,4 +183,8 @@ void Network::update_adj_with_congestion() {
       }
     }
   }
+}
+
+void Network::config(configurations_t *configurations) {
+  this->terminals_per_router = configurations->terminals_per_router;
 }

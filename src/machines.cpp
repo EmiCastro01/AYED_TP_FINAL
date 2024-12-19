@@ -39,6 +39,9 @@ void Router::route() {
   for(int s = 0; s < this->get_neighbors().size(); s++) {
       if(this->get_neighbors().search_router_idx(s).out_packets.is_empty() == false) {
           for(int i = 0; i < this->get_neighbors().search_router_idx(s).cost; i++) {
+            if(this->get_neighbors().search_router_idx(s).out_packets.is_empty() == true) {
+              break;
+            }
             cout << "Routing packet to: " << this->get_neighbors().search_router_idx(s).router->get_name() << endl;
             this->get_neighbors().search_router_idx(s).router->get_entry_queue()->push(this->get_neighbors().search_router_idx(s).out_packets.pop());
         }
@@ -114,16 +117,19 @@ void Router::listen() {
   } else {
     Packet *packet = new Packet();
 
+
     for(int i = 0; i < this->get_entry_queue()->size(); i++) {
-    *packet = this->get_entry_queue()->get_last();
+
+   *packet = this->get_entry_queue()->pop();
     Router *opt_router = get_optimal_router(this, (int)packet->destination.to_ullong());
     if( this->get_terminals().exists_terminal((int)packet->destination.to_ullong()) ) {
         cout << "Final destination reached " << endl;
-        return;
+        this->get_entry_queue()->push(*packet);
+        continue;
     }
     cout << "Packet received: " << packet->data << ". Destination:  "<< (int)packet->destination.to_ullong() << endl;
     this->get_neighbors().search_neighbor(opt_router).out_packets.push(*packet);
-    this->get_entry_queue()->pop();
+    //this->get_entry_queue()->pop();
     }
     delete packet;
   }
