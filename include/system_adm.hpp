@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "network.hpp"
-#include "opt_fw.hpp"
+#include "dijkstra.hpp"
 #include "utils.hpp"
 
 using namespace std;

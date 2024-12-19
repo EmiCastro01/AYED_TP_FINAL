@@ -26,7 +26,7 @@ typedef struct {
 
 typedef struct {
     Terminal* terminal;
-    Queue<Data> data;
+    //Queue<Data> data;
     Queue<Page>* out_pages;
 } terminals_t;
 

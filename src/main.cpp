@@ -10,6 +10,7 @@
 #include "system_adm.cpp"
 #include "utils.cpp"
 
+
 using namespace std;
 
 #define INFI std::numeric_limits<int>::max()
@@ -24,6 +25,7 @@ Admin sys_adm;
  * @return int
  */
 int main() {
+  
     configurations_t *configurations;
     int adjacency_matrix[MAX_ROUTERS][MAX_ROUTERS];
     configurations = load_configurations("../config.json");
@@ -41,6 +43,10 @@ int main() {
     simulator.config(&network, &sys_adm);
     simulator.debug(true);
     simulator.begin();
+
+    
+
+  
     return EXIT_SUCCESS;
 }
 

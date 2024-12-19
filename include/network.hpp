@@ -31,7 +31,7 @@ class Network {
     int terminals_per_router;
 
    public:
-    int caminos[ROUTER_MAX_NO][ROUTER_MAX_NO] = {0};
+    int Pre[ROUTER_MAX_NO];
     int A[ROUTER_MAX_NO][ROUTER_MAX_NO];
     int cf[ROUTER_MAX_NO][ROUTER_MAX_NO];
     Network();
