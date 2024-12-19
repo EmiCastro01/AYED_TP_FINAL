@@ -1,7 +1,7 @@
 {
-  "number of routers": 40,
-  "terminals per router": 3,
-  "adjacency matrix file": "adjacency_matrix.txt",
-  "band width file": "routing_table.txt",
-  "max_page_size": 10
+  "number of routers": 10,
+  "terminals per router": 2,
+  "adjacency matrix file": "",
+  "band width file": ""
+ 
 }
