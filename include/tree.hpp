@@ -3,7 +3,7 @@ using namespace std;
 
 template <class T>
 class Tree_Node {
-  public:
+   public:
     Tree_Node(T data);
     T get_data();
     Tree_Node<T>*& get_left();
@@ -11,7 +11,7 @@ class Tree_Node {
     void set_left(Tree_Node<T>* left);
     void set_right(Tree_Node<T>* right);
 
-  private:
+   private:
     T data;
     Tree_Node<T>* left;
     Tree_Node<T>* right;

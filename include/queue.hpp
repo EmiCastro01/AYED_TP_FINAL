@@ -6,21 +6,23 @@ using namespace std;
 class Router;
 
 //-----------------NODE-----------------
-template <class T> class Node {
-  public:
+template <class T>
+class Node {
+   public:
     Node(T data);
     T& get_data();
     Node<T>* get_next();
     void set_next(Node<T>* next);
-  private:
+
+   private:
     T data;
     Node<T>* next;
 };
 
 //-----------------QUEUE-----------------
-template <class T> class Queue {
-
-  public:
+template <class T>
+class Queue {
+   public:
     Queue();
     void push(T data);
     T pop();
@@ -37,10 +39,10 @@ template <class T> class Queue {
     T& search_terminal_idx(int index);
     T& search_packet(int key);
     T& search_packet_idx(int index);
-    T& search_neighbor(Router *router);
+    T& search_neighbor(Router* router);
     bool exists_terminal(int key);
-  
-  private:
+
+   private:
     int queue_size;
     Node<T>* head;
     Node<T>* last;

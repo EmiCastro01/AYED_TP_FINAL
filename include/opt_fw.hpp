@@ -4,14 +4,17 @@
 
 #define INFI std::numeric_limits<int>::max()
 
-
 using namespace std;
 
-void warshall(const int peso[ROUTER_MAX_NO][ROUTER_MAX_NO], int caminos[ROUTER_MAX_NO][ROUTER_MAX_NO], int endpoint);
-void floyd(const int peso[ROUTER_MAX_NO][ROUTER_MAX_NO], int A[ROUTER_MAX_NO][ROUTER_MAX_NO], int cf[ROUTER_MAX_NO][ROUTER_MAX_NO], int endpoint);
+void warshall(const int peso[ROUTER_MAX_NO][ROUTER_MAX_NO],
+              int caminos[ROUTER_MAX_NO][ROUTER_MAX_NO], int endpoint);
+void floyd(const int peso[ROUTER_MAX_NO][ROUTER_MAX_NO],
+           int A[ROUTER_MAX_NO][ROUTER_MAX_NO],
+           int cf[ROUTER_MAX_NO][ROUTER_MAX_NO], int endpoint);
 void caminoFloyd(const int cf[ROUTER_MAX_NO][ROUTER_MAX_NO], int s, int t);
 
-void warshall(const int peso[ROUTER_MAX_NO][ROUTER_MAX_NO], int caminos[ROUTER_MAX_NO][ROUTER_MAX_NO], int endpoint) {
+void warshall(const int peso[ROUTER_MAX_NO][ROUTER_MAX_NO],
+              int caminos[ROUTER_MAX_NO][ROUTER_MAX_NO], int endpoint) {
     for (int i = 0; i < endpoint; ++i) {
         for (int j = 0; j < endpoint; ++j) {
             caminos[i][j] = (peso[i][j] != INFI) ? 1 : 0;
@@ -21,14 +24,16 @@ void warshall(const int peso[ROUTER_MAX_NO][ROUTER_MAX_NO], int caminos[ROUTER_M
     for (int k = 0; k < endpoint; ++k) {
         for (int i = 0; i < endpoint; ++i) {
             for (int j = 0; j < endpoint; ++j) {
-                if (caminos[i][j] == 0) 
+                if (caminos[i][j] == 0)
                     caminos[i][j] = caminos[i][k] && caminos[k][j];
             }
         }
     }
 }
 
-void floyd(const int peso[ROUTER_MAX_NO][ROUTER_MAX_NO], int A[ROUTER_MAX_NO][ROUTER_MAX_NO], int cf[ROUTER_MAX_NO][ROUTER_MAX_NO], int endpoint) {
+void floyd(const int peso[ROUTER_MAX_NO][ROUTER_MAX_NO],
+           int A[ROUTER_MAX_NO][ROUTER_MAX_NO],
+           int cf[ROUTER_MAX_NO][ROUTER_MAX_NO], int endpoint) {
     for (int i = 0; i < endpoint; ++i) {
         for (int j = 0; j < endpoint; ++j) {
             A[i][j] = peso[i][j];
@@ -40,7 +45,8 @@ void floyd(const int peso[ROUTER_MAX_NO][ROUTER_MAX_NO], int A[ROUTER_MAX_NO][RO
     for (int k = 0; k < endpoint; ++k) {
         for (int i = 0; i < endpoint; ++i) {
             for (int j = 0; j < endpoint; ++j) {
-                if (A[i][k] != INFI && A[k][j] != INFI && (A[i][k] + A[k][j] < A[i][j])) {
+                if (A[i][k] != INFI && A[k][j] != INFI &&
+                    (A[i][k] + A[k][j] < A[i][j])) {
                     A[i][j] = A[i][k] + A[k][j];
                     cf[i][j] = k;
                 }
