@@ -2,6 +2,7 @@
 #include <iostream>
 #include "router.hpp"
 #include "packets.hpp"
+#include "utils.hpp"
 #include "terminal.hpp"
 
 #define ROUTER_MAX_NO 256
@@ -22,11 +23,14 @@ class Network {
     int adjacency_matrix[ROUTER_MAX_NO][ROUTER_MAX_NO];
     bool check_matrix();
     Router routers_array[ROUTER_MAX_NO];
+    int terminals_per_router;
   public:
+
     int caminos[ROUTER_MAX_NO][ROUTER_MAX_NO] = {0};
     int A[ROUTER_MAX_NO][ROUTER_MAX_NO];
     int cf[ROUTER_MAX_NO][ROUTER_MAX_NO];
     Network();
+    void config(configurations_t *configurations);
     void set_adjacency_matrix(const int (&matrix)[ROUTER_MAX_NO][ROUTER_MAX_NO]);
     void update_adj_with_congestion();
     void reinit();

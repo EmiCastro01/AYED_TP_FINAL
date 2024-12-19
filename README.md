@@ -1,8 +1,5 @@
 # AYED_TP_FINAL
 
-This project simulates a system with routers and machines that can transfer
-packages of data themselves......
-
 
 # Justify Trade-off Time-Space
 
@@ -39,3 +36,6 @@ has more than 1 of band width, so, on one cycle, the packets is pop out of the q
 On reset, adjacency Matrix is randomly load with costs (band width), this is the same address memory
 that is used to load congestion on the net. Costs are stored on every router-neighbor connection once (on reset). Anyways, user can display it with debug-mode of Simulator.
 
+## Terminals are generated randomly
+
+Terminals are generated randomly. That means that a router can have ONLY client sources, or ONLY receiver terminals. That isn't a problem beacuse a Terminal have always a router, so a receiver terminal must have a path to receive data.

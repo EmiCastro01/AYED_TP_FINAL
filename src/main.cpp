@@ -24,7 +24,7 @@ int main ()
   create_matrix(adjacency_matrix, configurations->number_of_routers);
 
   Network network;
-
+  network.config(configurations);
   network.set_adjacency_matrix( 
     adjacency_matrix
   );
@@ -46,7 +46,6 @@ int main ()
 
 
 Router* get_optimal_router(Router *__from, int __to) {
-  cout << "Getting optimal router" << endl;
   return sys_adm.get_optimal_router(__from, __to);
 }
 
