@@ -27,13 +27,13 @@ configurations_t* load_configurations(const string& filename) {
         istringstream iss(line);
         string key, value;
 
-        size_t pos = line.find(':');
+        size_t pos = line.find(':'); // pos = amount of chars before :
         if (pos != string::npos) {
-            key = line.substr(0, pos);
+            key = line.substr(0, pos); 
             value = line.substr(pos + 1);
 
-            key.erase(remove(key.begin(), key.end(), '"'), key.end());
-            value.erase(remove(value.begin(), value.end(), '"'), value.end());
+            key.erase(remove(key.begin(), key.end(), '"'), key.end()); // remove "
+            value.erase(remove(value.begin(), value.end(), '"'), value.end()); 
 
             if (key == "numberofrouters") {
                 config->number_of_routers = stoi(value);

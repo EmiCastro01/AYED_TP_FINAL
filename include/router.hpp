@@ -36,15 +36,13 @@ class Router {
     void regenerate_pages();
     void listen();  // listen gates
     void flush();  // send the page to local terminals
-
-
+    void route();  // Execute the process of redirect packets
    public:
     Router(string name, int ID);
     Router();
     string get_name();
     int get_ID();
     IP get_ip();
-    void route();  // Execute the process of redirect packets
     void add_neighbor(Router* router, int cost);
     void add_terminal(Terminal* terminal, int cost);
     void status_dump();

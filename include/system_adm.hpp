@@ -18,7 +18,6 @@ class Admin {
     void set_network(Network *network);
     Router *get_optimal_router(Router *__from, int __to);
     void calculate_optimal_routes();
-    void check_congestion();
     int get_current_routers_no();
 };
 
