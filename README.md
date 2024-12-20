@@ -1,44 +1,36 @@
-# AYED_TP_FINAL
+# TP FINAL AYED
 
-This project simulates a system with routers and machines that can transfer
-packages of data themselves......
+In this repository, user can simulate an Internet Network system. The system can manage every machine, like routers or terminals, send data in pages, see how routers divides the pages on several packets, see the net congestion, etc.
 
-# UPDATES
+The user can edit:
 
-The project can generate de network between routers, with neighbors. Neighbors are stored on each
-router with a queue of neighbor_t structures, that have the ID and cost.
-The project can generate router->terminal connections, and generate a queue with
-the terminals corresponding of each router. Every terminal has a unique ID.
-The project can ask the network to search terminals by ID; so Simulator can operate them
-to send data and recieve them.
+### config.json File
 
+For emulating different scenarios of network
 
-# Justify Trade-off Time-Space
+### main.cpp 
 
-Network class has an array of Routers, but no array for Terminals.
-But network must have information about terminals. So, for returning a Terminal, we decided to iterate the array of Routers (that has minimun size compare to amount of Terminals) and, on each Router, iterate the Queue of Termials, searching on this process
-the Terminal to return.
-We have needed to decided a Trade-off solution between this, and just making an array.
+For setting debug mode of Simulator
 
-We had a similar situation with the regenerate_page method. We decided to make a pipeline solution.
+## Simulator
 
-## Comparison
-  Terminal Array Option is more effective at time resource, which is better if amount of
-  terminals are near the max, but, if this amount is low, then memory is occupated anyways
-  with the 5K locations that are needed for the max amount. (256 * 256)
-  List of Terminals on Routers Array is more effective at space, due to dynamic allocation, but less effective at time.
+The simulator tool has access to the netowrk, so it can modify, execute, run, send pages, print maps, etc.
 
-## Why we decided second option
-  Because the network is not gonna be runned on a real server with a lot of memory space,
-  but is on a PC, so we priorized that resource.
+# Compile de Project
 
+For execute the project execute this operations at repository root:
 
+## Install g++ Compiler
 
+```
+sudo apt install g++
+```
+## Compile the Project & Execute
 
-# COMMING FEATURES
-
-Fix the problem that pages are regenerated upside down
-Generate the optimal paths
-
+```
+cd src
+g++ main.cpp -o main
+./main
+```
 
 
