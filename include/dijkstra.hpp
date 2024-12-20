@@ -12,8 +12,8 @@ using namespace std;
 
 int *dijkstra(const int C[][ROUTER_MAX_NO], int s, int t, int Pre[],
               int endpoint) {
-    static int D[ROUTER_MAX_NO];
-    int S[ROUTER_MAX_NO];
+    static int D[ROUTER_MAX_NO];  // stores the distance from s to each vertex
+    static int S[ROUTER_MAX_NO];       // stores vertices processed
     int actual, i, k, b;
     int menordist, nuevadist;
 
